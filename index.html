@@ -1208,12 +1208,8 @@
         }
 
         /* ============================================
-           NEW: CARD COLOR GLOW ON HOVER
+           CARD COLOR GLOW ON HOVER
            ============================================ */
-        .testimonial-card:hover {
-            transform: translateY(-10px) scale(1.03) rotateX(2deg) rotateY(-3deg);
-        }
-
         .testimonial-card:has(.label-before):hover {
             box-shadow: 0 15px 50px rgba(230, 126, 34, 0.2), 0 0 30px rgba(230, 126, 34, 0.1);
         }
@@ -1227,7 +1223,7 @@
         }
 
         /* ============================================
-           NEW: TYPING INDICATOR
+           TYPING INDICATOR
            ============================================ */
         .typing-indicator {
             display: inline-flex;
@@ -1276,7 +1272,7 @@
         }
 
         /* ============================================
-           NEW: GRADIENT SPINNING BORDER ON ACTIVE FLAG
+           GRADIENT SPINNING BORDER ON ACTIVE FLAG
            ============================================ */
         .flag-item.active .flag-circle {
             border: 5px solid transparent !important;
@@ -1297,15 +1293,9 @@
         }
 
         /* ============================================
-           NEW: GLASSMORPHISM TITLE BANNER
+           GLASSMORPHISM TITLE BANNER
            ============================================ */
         .section-title {
-            background: linear-gradient(135deg, #1a8a6e, #2ecc71, #1abc9c, #16a085, #1a8a6e);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 6s ease infinite;
             padding: 20px 40px;
             border-radius: 20px;
             position: relative;
@@ -1328,7 +1318,7 @@
         }
 
         /* ============================================
-           NEW: SMOOTH STUDENT NAME TRANSITION
+           STUDENT NAME PILL
            ============================================ */
         .student-name {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
@@ -1344,6 +1334,80 @@
         body.dark-mode .student-name {
             background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(30, 41, 59, 0.3));
             border-color: rgba(46, 204, 113, 0.2);
+        }
+
+        /* ============================================
+           NEW 1: CHAT BUBBLE HOVER MAGNIFY
+           ============================================ */
+        .chat-bubble {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .chat-bubble:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            position: relative;
+        }
+
+        /* ============================================
+           NEW 2: ACTIVE FLAG PULSE RINGS
+           ============================================ */
+        .flag-item.active::before,
+        .flag-item.active::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 2px solid rgba(46, 204, 113, 0.4);
+            pointer-events: none;
+        }
+
+        .flag-item.active::before {
+            width: 130%;
+            height: 130%;
+            animation: pulseRing 2s ease-out infinite;
+        }
+
+        .flag-item.active::after {
+            width: 130%;
+            height: 130%;
+            animation: pulseRing 2s ease-out infinite 1s;
+        }
+
+        @keyframes pulseRing {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1.6);
+                opacity: 0;
+            }
+        }
+
+        /* ============================================
+           NEW 3: STAGGERED CARD SLIDE DIRECTIONS
+           ============================================ */
+        .testimonial-card:nth-child(1) {
+            transform: translateX(60px) translateY(40px) scale(0.95);
+        }
+
+        .testimonial-card:nth-child(2) {
+            transform: translateY(60px) scale(0.95);
+        }
+
+        .testimonial-card:nth-child(3) {
+            transform: translateX(-60px) translateY(40px) scale(0.95);
+        }
+
+        .testimonial-card.visible:nth-child(1),
+        .testimonial-card.visible:nth-child(2),
+        .testimonial-card.visible:nth-child(3) {
+            transform: translateY(0) scale(1);
         }
     </style>
 </head>
