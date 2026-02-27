@@ -1409,6 +1409,121 @@
         .testimonial-card.visible:nth-child(3) {
             transform: translateY(0) scale(1);
         }
+
+        /* ============================================
+           FEATURE 1: WAVE DIVIDERS
+           ============================================ */
+        .wave-top,
+        .wave-bottom {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            z-index: 2;
+        }
+
+        .wave-top {
+            top: -1px;
+        }
+
+        .wave-bottom {
+            bottom: -1px;
+            transform: rotate(180deg);
+        }
+
+        .wave-top svg,
+        .wave-bottom svg {
+            display: block;
+            width: 100%;
+            height: 60px;
+        }
+
+        .wave-top svg path,
+        .wave-bottom svg path {
+            fill: #E8F4F8;
+        }
+
+        body.dark-mode .wave-top svg path,
+        body.dark-mode .wave-bottom svg path {
+            fill: #1a1a2e;
+        }
+
+        /* ============================================
+           FEATURE 2: ENHANCED CTA BUTTON
+           ============================================ */
+        .cta-button {
+            animation: ctaPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes ctaPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 6px 28px rgba(37, 211, 102, 0.35);
+            }
+
+            50% {
+                box-shadow: 0 8px 40px rgba(37, 211, 102, 0.55), 0 0 20px rgba(37, 211, 102, 0.2);
+            }
+        }
+
+        .cta-container::after {
+            content: '↓ اضغطي للمزيد ↓';
+            display: block;
+            text-align: center;
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: #999;
+            animation: bounceHint 2s ease-in-out infinite;
+        }
+
+        @keyframes bounceHint {
+
+            0%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.6;
+            }
+
+            50% {
+                transform: translateY(5px);
+                opacity: 1;
+            }
+        }
+
+        body.dark-mode .cta-container::after {
+            color: #64748b;
+        }
+
+        /* ============================================
+           FEATURE 3: ANIMATED MOVING BACKGROUND
+           ============================================ */
+        .testimonials-section {
+            background: linear-gradient(135deg, #e0f2f1 0%, #E8F4F8 25%, #dceef5 50%, #e0f7fa 75%, #E8F4F8 100%);
+            background-size: 400% 400%;
+            animation: bgMove 15s ease infinite;
+        }
+
+        @keyframes bgMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        body.dark-mode .testimonials-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #16213e 75%, #1a1a2e 100%);
+            background-size: 400% 400%;
+            animation: bgMove 15s ease infinite;
+        }
     </style>
 </head>
 
@@ -1418,6 +1533,13 @@
     <button class="dark-mode-toggle" id="darkToggle" aria-label="تبديل الوضع الليلي">🌙</button>
 
     <section class="testimonials-section" id="testimonials">
+
+        <!-- Wave Top Divider -->
+        <div class="wave-top">
+            <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+                <path d="M0,60 C200,0 400,50 600,25 C800,0 1000,45 1200,20 L1200,60 Z"></path>
+            </svg>
+        </div>
 
         <!-- Decorative Quote Marks -->
         <div class="quote-decoration quote-right">❝</div>
@@ -1477,6 +1599,15 @@
         </div>
 
     </section>
+
+    <!-- Wave Bottom Divider -->
+    <div style="position:relative;margin-top:-1px;">
+        <div class="wave-bottom" style="position:relative;">
+            <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+                <path d="M0,60 C200,0 400,50 600,25 C800,0 1000,45 1200,20 L1200,60 Z"></path>
+            </svg>
+        </div>
+    </div>
 
     <!-- WhatsApp Float -->
     <a href="https://wa.me/966543539931" target="_blank" class="whatsapp-float" aria-label="واتساب">
@@ -1746,39 +1877,6 @@
                         ]
                     }
                 ]
-            },
-            {
-                code: 'jo', name: 'الأردن',
-                flagUrl: 'https://flagcdn.com/w160/jo.png',
-                studentName: 'الطفلة نور - الأردن',
-                motherName: 'أم نور الأردن',
-                testimonialCount: '5',
-                cards: [
-                    {
-                        label: 'قبل',
-                        date: '5 November 2023',
-                        messages: [
-                            { type: 'received', text: 'السلام عليكم بنتي نور عمرها 7 سنوات وتحتاج مساعدة في القراءة بالإنجليزية جربنا طرق كثيرة', time: '10:00 AM' },
-                            { type: 'sent', text: 'وعليكم السلام! أهلاً بكم من الأردن. سنبدأ مع نور بخطة مخصصة إن شاء الله 🌟', time: '10:10 AM' }
-                        ]
-                    },
-                    {
-                        label: 'بعد',
-                        date: '22 November 2023',
-                        messages: [
-                            { type: 'received', text: 'ماشاء الله نور بدأت تقرأ كلمات جديدة كل يوم! المنهج ممتاز والفيديوهات تجذبها كثيراً 💫', time: '3:00 PM' },
-                            { type: 'sent', text: 'الحمد لله! نور طفلة ذكية ومجتهدة. هذا التقدم يسعدنا جداً ✨', time: '3:10 PM' }
-                        ]
-                    },
-                    {
-                        label: 'النتيجة النهائي',
-                        date: '10 December 2023',
-                        messages: [
-                            { type: 'sent', text: 'نور الآن تقرأ قصص إنجليزية كاملة بمفردها! فخورون بها جداً 🏆', time: '9:00 AM' },
-                            { type: 'received', text: 'مبارك لنور! نتيجة مذهلة في وقت قياسي. شكراً لكم 🎉', time: '9:05 AM' }
-                        ]
-                    }
-                ]
             }
         ];
 
@@ -1786,7 +1884,7 @@
         // STATE
         // ============================================
         let activeIndex = 0;
-        const VISIBLE_COUNT = 9; // Show all 9 flags (odd = perfect centering)
+        const VISIBLE_COUNT = 5; // Show 5 flags at a time
 
         // ============================================
         // INITIALIZE
@@ -1833,14 +1931,14 @@
             const activeSize = isMobile ? 80 : 110;
             const normalSize = isMobile ? 50 : 70;
 
-            // Arc parameters - tighter spacing so ALL 9 flags fit
+            // Arc parameters - tighter spacing so ALL 8 flags fit
             const centerX = containerWidth / 2;
-            const spacing = isMobile ? 38 : (isTablet ? 50 : 65);
+            const spacing = isMobile ? 45 : (isTablet ? 60 : 75);
 
-            // Values for distance 0 through 4 (covers all 9 flags: center + 4 on each side)
-            const yOffsets = [0, 15, 35, 52, 65];
+            // Values for distance 0 through 4 (covers all 8 flags: center + 4 on each side max)
+            const yOffsets = [0, 18, 40, 58, 72];
             const scaleFactors = [1, 0.88, 0.76, 0.65, 0.55];
-            const opacityValues = [1, 0.95, 0.85, 0.72, 0.55];
+            const opacityValues = [1, 0.95, 0.85, 0.7, 0.55];
 
             flags.forEach((flag, i) => {
                 // Calculate distance from active in circular manner
@@ -1948,7 +2046,6 @@
                             <div class="card-body">
                                 <div class="chat-date"><span>${card.date}</span></div>
                                 ${msgsHTML}
-                                <div class="typing-indicator"><span></span><span></span><span></span></div>
                             </div>
                             <div class="card-label ${card.label === 'قبل' ? 'label-before' : card.label === 'بعد' ? 'label-after' : 'label-result'}">
                                 <span class="label-icon">${card.label === 'قبل' ? '📋' : card.label === 'بعد' ? '📈' : '🏆'}</span>
