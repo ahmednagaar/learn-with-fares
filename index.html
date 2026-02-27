@@ -1206,6 +1206,145 @@
                 transform: scale(1);
             }
         }
+
+        /* ============================================
+           NEW: CARD COLOR GLOW ON HOVER
+           ============================================ */
+        .testimonial-card:hover {
+            transform: translateY(-10px) scale(1.03) rotateX(2deg) rotateY(-3deg);
+        }
+
+        .testimonial-card:has(.label-before):hover {
+            box-shadow: 0 15px 50px rgba(230, 126, 34, 0.2), 0 0 30px rgba(230, 126, 34, 0.1);
+        }
+
+        .testimonial-card:has(.label-after):hover {
+            box-shadow: 0 15px 50px rgba(41, 128, 185, 0.2), 0 0 30px rgba(41, 128, 185, 0.1);
+        }
+
+        .testimonial-card:has(.label-result):hover {
+            box-shadow: 0 15px 50px rgba(46, 204, 113, 0.2), 0 0 30px rgba(46, 204, 113, 0.1);
+        }
+
+        /* ============================================
+           NEW: TYPING INDICATOR
+           ============================================ */
+        .typing-indicator {
+            display: inline-flex;
+            gap: 4px;
+            padding: 10px 16px;
+            background: #fff;
+            border-radius: 12px;
+            border-top-right-radius: 4px;
+            align-self: flex-end;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .typing-indicator span {
+            width: 7px;
+            height: 7px;
+            background: #999;
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingBounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0.6);
+                opacity: 0.4;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ============================================
+           NEW: GRADIENT SPINNING BORDER ON ACTIVE FLAG
+           ============================================ */
+        .flag-item.active .flag-circle {
+            border: 5px solid transparent !important;
+            background-image: linear-gradient(#fff, #fff), linear-gradient(135deg, #2ecc71, #1abc9c, #3498db, #2ecc71);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            animation: floatFlag 3s ease-in-out infinite, spinBorder 4s linear infinite;
+        }
+
+        @keyframes spinBorder {
+            0% {
+                filter: hue-rotate(0deg);
+            }
+
+            100% {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        /* ============================================
+           NEW: GLASSMORPHISM TITLE BANNER
+           ============================================ */
+        .section-title {
+            background: linear-gradient(135deg, #1a8a6e, #2ecc71, #1abc9c, #16a085, #1a8a6e);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 6s ease infinite;
+            padding: 20px 40px;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            z-index: -1;
+        }
+
+        body.dark-mode .section-title::after {
+            background: rgba(30, 41, 59, 0.4);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ============================================
+           NEW: SMOOTH STUDENT NAME TRANSITION
+           ============================================ */
+        .student-name {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
+            backdrop-filter: blur(5px);
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 30px;
+            border: 1px solid rgba(46, 204, 113, 0.15);
+            margin: 0 auto 35px;
+            width: fit-content;
+        }
+
+        body.dark-mode .student-name {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(30, 41, 59, 0.3));
+            border-color: rgba(46, 204, 113, 0.2);
+        }
     </style>
 </head>
 
@@ -1543,6 +1682,39 @@
                         ]
                     }
                 ]
+            },
+            {
+                code: 'jo', name: 'الأردن',
+                flagUrl: 'https://flagcdn.com/w160/jo.png',
+                studentName: 'الطفلة نور - الأردن',
+                motherName: 'أم نور الأردن',
+                testimonialCount: '5',
+                cards: [
+                    {
+                        label: 'قبل',
+                        date: '5 November 2023',
+                        messages: [
+                            { type: 'received', text: 'السلام عليكم بنتي نور عمرها 7 سنوات وتحتاج مساعدة في القراءة بالإنجليزية جربنا طرق كثيرة', time: '10:00 AM' },
+                            { type: 'sent', text: 'وعليكم السلام! أهلاً بكم من الأردن. سنبدأ مع نور بخطة مخصصة إن شاء الله 🌟', time: '10:10 AM' }
+                        ]
+                    },
+                    {
+                        label: 'بعد',
+                        date: '22 November 2023',
+                        messages: [
+                            { type: 'received', text: 'ماشاء الله نور بدأت تقرأ كلمات جديدة كل يوم! المنهج ممتاز والفيديوهات تجذبها كثيراً 💫', time: '3:00 PM' },
+                            { type: 'sent', text: 'الحمد لله! نور طفلة ذكية ومجتهدة. هذا التقدم يسعدنا جداً ✨', time: '3:10 PM' }
+                        ]
+                    },
+                    {
+                        label: 'النتيجة النهائي',
+                        date: '10 December 2023',
+                        messages: [
+                            { type: 'sent', text: 'نور الآن تقرأ قصص إنجليزية كاملة بمفردها! فخورون بها جداً 🏆', time: '9:00 AM' },
+                            { type: 'received', text: 'مبارك لنور! نتيجة مذهلة في وقت قياسي. شكراً لكم 🎉', time: '9:05 AM' }
+                        ]
+                    }
+                ]
             }
         ];
 
@@ -1550,7 +1722,7 @@
         // STATE
         // ============================================
         let activeIndex = 0;
-        const VISIBLE_COUNT = 5; // Show 5 flags at a time
+        const VISIBLE_COUNT = 9; // Show all 9 flags (odd = perfect centering)
 
         // ============================================
         // INITIALIZE
@@ -1597,14 +1769,14 @@
             const activeSize = isMobile ? 80 : 110;
             const normalSize = isMobile ? 50 : 70;
 
-            // Arc parameters - tighter spacing so ALL 8 flags fit
+            // Arc parameters - tighter spacing so ALL 9 flags fit
             const centerX = containerWidth / 2;
-            const spacing = isMobile ? 45 : (isTablet ? 60 : 75);
+            const spacing = isMobile ? 38 : (isTablet ? 50 : 65);
 
-            // Values for distance 0 through 4 (covers all 8 flags: center + 4 on each side max)
-            const yOffsets = [0, 18, 40, 58, 72];
+            // Values for distance 0 through 4 (covers all 9 flags: center + 4 on each side)
+            const yOffsets = [0, 15, 35, 52, 65];
             const scaleFactors = [1, 0.88, 0.76, 0.65, 0.55];
-            const opacityValues = [1, 0.95, 0.85, 0.7, 0.55];
+            const opacityValues = [1, 0.95, 0.85, 0.72, 0.55];
 
             flags.forEach((flag, i) => {
                 // Calculate distance from active in circular manner
@@ -1712,6 +1884,7 @@
                             <div class="card-body">
                                 <div class="chat-date"><span>${card.date}</span></div>
                                 ${msgsHTML}
+                                <div class="typing-indicator"><span></span><span></span><span></span></div>
                             </div>
                             <div class="card-label ${card.label === 'قبل' ? 'label-before' : card.label === 'بعد' ? 'label-after' : 'label-result'}">
                                 <span class="label-icon">${card.label === 'قبل' ? '📋' : card.label === 'بعد' ? '📈' : '🏆'}</span>
