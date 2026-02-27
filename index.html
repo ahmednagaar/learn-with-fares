@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آراء الأمهات - تعلم مع فارس</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #E8F4F8;
+            color: #2c3e50;
+            overflow-x: hidden;
+        }
+
+        /* ============================================
+           SECTION CONTAINER
+           ============================================ */
+        .testimonials-section {
+            width: 100%;
+            background: linear-gradient(180deg, #e0f2f1 0%, #E8F4F8 30%, #dceef5 70%, #E8F4F8 100%);
+            padding: 50px 20px 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative circles */
+        .testimonials-section::before {
+            content: '';
+            position: absolute;
+            top: -150px;
+            right: -150px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .testimonials-section::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(26, 138, 110, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* ============================================
+           HEADER TITLE
+           ============================================ */
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1a8a6e, #2ecc71, #1abc9c, #16a085, #1a8a6e);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 6s ease infinite;
+            margin-bottom: 55px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 5;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .section-title .highlight {
+            background: linear-gradient(135deg, #e74c3c, #c0392b, #e74c3c);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+        }
+
+        /* ============================================
+           FLAGS ARC CONTAINER
+           ============================================ */
+        .flags-arc-wrapper {
+            position: relative;
+            z-index: 4;
+            margin-bottom: 20px;
+        }
+
+        .flags-arc-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 0;
+            max-width: 850px;
+            margin: 0 auto;
+            height: 170px;
+            position: relative;
+        }
+
+        .flag-item {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1;
+            will-change: transform, opacity;
+        }
+
+        .flag-item.active {
+            z-index: 10;
+        }
+
+        .flag-item .flag-circle {
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: #fff;
+        }
+
+        .flag-item.active .flag-circle {
+            width: 110px;
+            height: 110px;
+            border: 5px solid #2ecc71;
+            box-shadow: 0 8px 35px rgba(46, 204, 113, 0.35), 0 0 0 8px rgba(46, 204, 113, 0.12);
+            animation: floatFlag 3s ease-in-out infinite;
+        }
+
+        .flag-item:not(.active) .flag-circle {
+            width: 70px;
+            height: 70px;
+        }
+
+        .flag-item:not(.active):hover .flag-circle {
+            transform: scale(1.15);
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.18);
+            border-color: #2ecc71;
+        }
+
+        .flag-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        @keyframes floatFlag {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        /* Connector line between flags */
+        .arc-connector {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 80px;
+            border-bottom: 3px dashed rgba(46, 204, 113, 0.15);
+            border-radius: 0 0 50% 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ============================================
+           STAR RATING
+           ============================================ */
+        .star-rating {
+            text-align: center;
+            margin: 10px 0 8px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .star-rating .stars {
+            display: inline-flex;
+            gap: 5px;
+            font-size: 2rem;
+        }
+
+        .star-rating .star {
+            color: #f1c40f;
+            text-shadow: 0 2px 10px rgba(241, 196, 15, 0.4);
+            display: inline-block;
+            animation: starPop 0.5s ease backwards;
+        }
+
+        .star-rating .star:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .star-rating .star:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .star-rating .star:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .star-rating .star:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+        .star-rating .star:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        @keyframes starPop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.3);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ============================================
+           STUDENT NAME
+           ============================================ */
+        .student-name {
+            text-align: center;
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 35px;
+            position: relative;
+            z-index: 3;
+            transition: all 0.4s ease;
+        }
+
+        .student-name.fade-out {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        /* ============================================
+           TESTIMONIAL CARDS CONTAINER
+           ============================================ */
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            max-width: 1050px;
+            margin: 0 auto 35px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 3;
+            direction: rtl;
+        }
+
+        /* ============================================
+           INDIVIDUAL CARD
+           ============================================ */
+        .testimonial-card {
+            flex: 0 1 320px;
+            background: #fff;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 2px 10px rgba(0, 0, 0, 0.04);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+            transform-style: preserve-3d;
+            perspective: 800px;
+        }
+
+        .testimonial-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px) scale(1.03) rotateX(2deg) rotateY(-3deg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.14), 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Animation delays for staggered entrance */
+        .testimonial-card:nth-child(1) {
+            transition-delay: 0.08s;
+        }
+
+        .testimonial-card:nth-child(2) {
+            transition-delay: 0.22s;
+        }
+
+        .testimonial-card:nth-child(3) {
+            transition-delay: 0.36s;
+        }
+
+        /* WhatsApp-style header */
+        .card-header {
+            background: linear-gradient(135deg, #075e54 0%, #128C7E 50%, #1a9e8c 100%);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            direction: rtl;
+        }
+
+        .card-header .contact-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            backdrop-filter: blur(4px);
+        }
+
+        .card-header .contact-info {
+            flex: 1;
+        }
+
+        .card-header .contact-name {
+            color: #fff;
+            font-size: 0.88rem;
+            font-weight: 700;
+        }
+
+        .card-header .contact-status {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.7rem;
+            margin-top: 2px;
+        }
+
+        .card-header .header-icons {
+            display: flex;
+            gap: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+
+        /* Chat body */
+        .card-body {
+            background: #e5ddd5;
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8c1b5' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            padding: 18px 14px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Chat date badge */
+        .chat-date {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .chat-date span {
+            background: rgba(225, 218, 208, 0.9);
+            padding: 4px 14px;
+            border-radius: 8px;
+            font-size: 0.72rem;
+            color: #555;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Chat bubbles */
+        .chat-bubble {
+            max-width: 88%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            line-height: 1.65;
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        .chat-bubble.received {
+            background: #fff;
+            align-self: flex-end;
+            border-top-right-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .chat-bubble.sent {
+            background: #dcf8c6;
+            align-self: flex-start;
+            border-top-left-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .chat-bubble .time {
+            font-size: 0.62rem;
+            color: #999;
+            text-align: left;
+            margin-top: 5px;
+            direction: ltr;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .chat-bubble.sent .time::after {
+            content: '✓✓';
+            color: #4fc3f7;
+            font-size: 0.55rem;
+        }
+
+        /* Card label */
+        .card-label {
+            padding: 16px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #fff;
+            background: linear-gradient(135deg, #1a8a6e 0%, #27ae60 50%, #2ecc71 100%);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .card-label.label-before {
+            background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+        }
+
+        .card-label.label-after {
+            background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+        }
+
+        .card-label.label-result {
+            background: linear-gradient(135deg, #1a8a6e 0%, #2ecc71 100%);
+        }
+
+        .card-label .label-icon {
+            font-size: 1.1rem;
+        }
+
+        .card-label::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            animation: labelShine 4s ease-in-out infinite;
+        }
+
+        @keyframes labelShine {
+            0% {
+                left: -100%;
+            }
+
+            40%,
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Decorative quote marks */
+        .quote-decoration {
+            position: absolute;
+            font-size: 8rem;
+            color: rgba(46, 204, 113, 0.06);
+            font-family: Georgia, serif;
+            z-index: 1;
+            pointer-events: none;
+            line-height: 1;
+        }
+
+        .quote-right {
+            top: 60px;
+            right: 40px;
+        }
+
+        .quote-left {
+            bottom: 100px;
+            left: 40px;
+        }
+
+        /* Scroll reveal */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal-on-scroll.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           BOTTOM TEXT
+           ============================================ */
+        .bottom-text {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #e74c3c;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* ============================================
+           CTA BUTTON
+           ============================================ */
+        .cta-container {
+            text-align: center;
+            margin-top: 30px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 45px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Cairo', sans-serif;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 28px rgba(37, 211, 102, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(37, 211, 102, 0.45);
+        }
+
+        .cta-button svg {
+            width: 22px;
+            height: 22px;
+            fill: #fff;
+        }
+
+        /* ============================================
+           WHATSAPP FLOATING ICON
+           ============================================ */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 28px rgba(37, 211, 102, 0.5);
+        }
+
+        .whatsapp-float svg {
+            width: 32px;
+            height: 32px;
+            fill: #fff;
+        }
+
+        /* Pulse ring */
+        .whatsapp-float::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid #25D366;
+            animation: waPulse 2s ease-out infinite;
+        }
+
+        @keyframes waPulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 1024px) {
+            .cards-container {
+                gap: 20px;
+            }
+
+            .testimonial-card {
+                flex: 0 1 280px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .cards-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .testimonial-card {
+                flex: 0 1 auto;
+                width: 100%;
+                max-width: 360px;
+            }
+
+            .section-title {
+                font-size: 1.65rem;
+            }
+
+            .flags-arc-container {
+                max-width: 500px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .testimonials-section {
+                padding: 30px 12px 50px;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+                margin-bottom: 40px;
+            }
+
+            .flags-arc-container {
+                max-width: 360px;
+                height: 120px;
+            }
+
+            .flag-item.active .flag-circle {
+                width: 80px !important;
+                height: 80px !important;
+            }
+
+            .flag-item:not(.active) .flag-circle {
+                width: 50px !important;
+                height: 50px !important;
+            }
+
+            .student-name {
+                font-size: 1.2rem;
+                margin-bottom: 25px;
+            }
+
+            .star-rating .stars {
+                font-size: 1.5rem;
+            }
+
+            .card-body {
+                min-height: 240px;
+            }
+
+            .bottom-text {
+                font-size: 1.05rem;
+            }
+
+            .cta-button {
+                padding: 14px 28px;
+                font-size: 0.92rem;
+            }
+        }
+
+        /* ============================================
+           ENHANCEMENT 1: FLAG TOOLTIPS
+           ============================================ */
+        .flag-tooltip {
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: #2c3e50;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .flag-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid #2c3e50;
+        }
+
+        .flag-item:hover .flag-tooltip,
+        .flag-item.active .flag-tooltip {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        /* ============================================
+           ENHANCEMENT 2: PROGRESS DOTS
+           ============================================ */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0 5px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(46, 204, 113, 0.25);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .progress-dot.active {
+            background: #2ecc71;
+            transform: scale(1.3);
+            box-shadow: 0 0 8px rgba(46, 204, 113, 0.5);
+        }
+
+        .progress-dot:hover:not(.active) {
+            background: rgba(46, 204, 113, 0.5);
+            transform: scale(1.15);
+        }
+
+        /* ============================================
+           ENHANCEMENT 3: STATS COUNTER
+           ============================================ */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px auto 0;
+            max-width: 700px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #1a8a6e;
+            line-height: 1;
+        }
+
+        .stat-number span {
+            color: #e74c3c;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .stats-bar {
+                gap: 20px;
+            }
+
+            .stat-number {
+                font-size: 1.4rem;
+            }
+
+            .stat-label {
+                font-size: 0.72rem;
+            }
+        }
+
+        /* ============================================
+           ENHANCEMENT 4: FLOATING PARTICLES
+           ============================================ */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            animation: particleFloat linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+
+            10% {
+                opacity: 0.6;
+            }
+
+            90% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-400px) rotate(360deg);
+            }
+        }
+
+        /* ============================================
+           ENHANCEMENT 5: AUTO-ROTATE INDICATOR
+           ============================================ */
+        .auto-rotate-bar {
+            position: relative;
+            max-width: 300px;
+            height: 3px;
+            background: rgba(46, 204, 113, 0.15);
+            border-radius: 3px;
+            margin: 8px auto 0;
+            overflow: hidden;
+            z-index: 3;
+        }
+
+        .auto-rotate-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71, #1a8a6e);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* ============================================
+           NAV ARROWS
+           ============================================ */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(46, 204, 113, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #1a8a6e;
+            z-index: 15;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-arrow:hover {
+            background: #2ecc71;
+            color: #fff;
+            border-color: #2ecc71;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 5px 20px rgba(46, 204, 113, 0.3);
+        }
+
+        .nav-arrow-right {
+            right: -60px;
+        }
+
+        .nav-arrow-left {
+            left: -60px;
+        }
+
+        @media (max-width: 900px) {
+            .nav-arrow {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+
+            .nav-arrow-right {
+                right: -10px;
+            }
+
+            .nav-arrow-left {
+                left: -10px;
+            }
+        }
+
+        /* ============================================
+           CONFETTI
+           ============================================ */
+        .confetti-piece {
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 1;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(120vh) rotate(720deg) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        /* ============================================
+           DARK MODE
+           ============================================ */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid rgba(46, 204, 113, 0.3);
+            background: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark-mode .testimonials-section {
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+        }
+
+        body.dark-mode .section-title {
+            background: linear-gradient(135deg, #2ecc71, #4ade80, #22d3ee, #2ecc71);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        body.dark-mode .student-name {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .testimonial-card {
+            background: #1e293b;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .chat-bubble.received {
+            background: #334155;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .chat-bubble.sent {
+            background: #1a4a2e;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .card-body {
+            background: #0f172a;
+        }
+
+        body.dark-mode .chat-date span {
+            background: rgba(51, 65, 85, 0.8);
+            color: #94a3b8;
+        }
+
+        body.dark-mode .bottom-text {
+            color: #f87171;
+        }
+
+        body.dark-mode .flag-item .flag-circle {
+            border-color: #334155;
+        }
+
+        body.dark-mode .flag-item.active .flag-circle {
+            border-color: #2ecc71;
+        }
+
+        body.dark-mode .nav-arrow {
+            background: rgba(30, 41, 59, 0.9);
+            color: #4ade80;
+            border-color: rgba(46, 204, 113, 0.3);
+        }
+
+        body.dark-mode .nav-arrow:hover {
+            background: #2ecc71;
+            color: #fff;
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            background: #1e293b;
+            color: #fbbf24;
+            border-color: #334155;
+        }
+
+        body.dark-mode .progress-dot {
+            background: rgba(46, 204, 113, 0.2);
+        }
+
+        body.dark-mode .progress-dot.active {
+            background: #2ecc71;
+        }
+
+        body.dark-mode .stat-number {
+            color: #4ade80;
+        }
+
+        body.dark-mode .auto-rotate-bar {
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        body.dark-mode .quote-decoration {
+            color: rgba(46, 204, 113, 0.08);
+        }
+
+        body.dark-mode .flag-tooltip {
+            background: #4ade80;
+            color: #1a1a2e;
+        }
+
+        body.dark-mode .flag-tooltip::before {
+            border-bottom-color: #4ade80;
+        }
+
+        /* ============================================
+           CARD FLIP
+           ============================================ */
+        .testimonial-card {
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .testimonial-card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            backface-visibility: hidden;
+        }
+
+        .card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #1a8a6e 0%, #2ecc71 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            border-radius: 22px;
+        }
+
+        .card-back .back-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .card-back .back-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            font-weight: 600;
+        }
+
+        .card-back .back-hint {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-top: 15px;
+        }
+
+        /* ============================================
+           COUNT BADGE
+           ============================================ */
+        .flag-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            min-width: 22px;
+            height: 22px;
+            border-radius: 11px;
+            background: #e74c3c;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
+            z-index: 5;
+            animation: badgePop 0.4s ease backwards;
+        }
+
+        @keyframes badgePop {
+            0% {
+                transform: scale(0);
+            }
+
+            60% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" id="darkToggle" aria-label="تبديل الوضع الليلي">🌙</button>
+
+    <section class="testimonials-section" id="testimonials">
+
+        <!-- Decorative Quote Marks -->
+        <div class="quote-decoration quote-right">❝</div>
+        <div class="quote-decoration quote-left">❞</div>
+
+        <!-- Section Title -->
+        <h2 class="section-title reveal-on-scroll">
+            ماذا يقول الأهالي عن رحلتهم مع <span class="highlight">" تعلّم مع فارس "</span> ؟
+        </h2>
+
+        <!-- Flags Arc -->
+        <div class="flags-arc-wrapper">
+            <div class="flags-arc-container" id="flagsArc">
+                <div class="arc-connector"></div>
+                <!-- Flags injected by JS -->
+                <div class="nav-arrow nav-arrow-right" id="navRight">◀</div>
+                <div class="nav-arrow nav-arrow-left" id="navLeft">▶</div>
+            </div>
+        </div>
+
+        <!-- Progress Dots -->
+        <div class="progress-dots" id="progressDots"></div>
+        <div class="auto-rotate-bar">
+            <div class="auto-rotate-progress" id="autoProgress"></div>
+        </div>
+
+        <!-- Star Rating -->
+        <div class="star-rating" id="starRating">
+            <div class="stars">
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+            </div>
+        </div>
+
+        <!-- Student Name -->
+        <div class="student-name" id="studentName"></div>
+
+        <!-- Testimonial Cards -->
+        <div class="cards-container" id="cardsContainer"></div>
+
+        <!-- Bottom Text -->
+        <p class="bottom-text">في 3 أسابيع فقط...تغيّر كل شيء</p>
+
+        <!-- CTA Button -->
+        <div class="cta-container">
+            <a href="https://learnwithfaris.com/%d8%a2%d8%b1%d8%a7%d8%a1-%d8%a7%d9%84%d8%a3%d9%85%d9%87%d8%a7%d8%aa/"
+                class="cta-button">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                </svg>
+                اضغطي هنا الآن لقراءة مئات تعليقات الأمهات
+            </a>
+        </div>
+
+    </section>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/966543539931" target="_blank" class="whatsapp-float" aria-label="واتساب">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+            <path
+                d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.132 6.744 3.052 9.38L1.056 31.2l6.072-1.94C9.628 30.9 12.7 32 16.004 32 24.826 32 32 24.824 32 16S24.826 0 16.004 0zm9.312 22.608c-.396 1.116-1.94 2.04-3.216 2.312-.876.184-2.02.332-5.872-1.264-4.928-2.04-8.1-7.024-8.348-7.352-.24-.328-1.996-2.66-1.996-5.076 0-2.416 1.264-3.6 1.712-4.092.396-.432 1.044-.636 1.668-.636.2 0 .38.02.54.036.448.02.672.044.968.748.368.876 1.264 3.084 1.376 3.312.112.228.224.536.068.848-.14.32-.264.464-.492.728-.228.264-.444.464-.672.748-.208.244-.44.504-.188.948.252.448 1.124 1.852 2.412 3 1.66 1.476 3.06 1.936 3.5 2.148.328.16.72.128.976-.148.32-.356.716-.948 1.116-1.532.284-.42.644-.472 1.012-.328.372.14 2.372 1.12 2.78 1.324.408.2.68.304.78.472.1.168.1.972-.296 2.088z" />
+        </svg>
+    </a>
+
+    <script>
+        // ============================================
+        // COUNTRY DATA
+        // ============================================
+        const countries = [
+            {
+                code: 'kw', name: 'الكويت',
+                flagUrl: 'https://flagcdn.com/w160/kw.png',
+                studentName: 'الطفل محمد - الكويت',
+                motherName: 'أم أميرة الكويت',
+                cards: [
+                    {
+                        label: 'قبل',
+                        date: '16 August 2023',
+                        messages: [
+                            { type: 'received', text: 'ماشاء الله المنهج رائع و مبسط الاستجابة سريعة و الجهود البحثي للحروف مشوده بالكتب والكتابة وتطوره جدا بمستوى أميرة وخصوصا لكثرة الفيديوهات تجذب كثيرا', time: '1:35 PM' },
+                            { type: 'sent', text: 'صباح النور نشكركم على كلماتكم الرائعة والمشجعة. يسعدنا أن تعلم أن المنهج والأسلوب والفيديوهات كلها أثبتت كفاءتها وكانت النتائج رائعة', time: '1:38 PM' }
+                        ]
+                    },
+                    {
+                        label: 'بعد',
+                        date: '28 August 2023',
+                        messages: [
+                            { type: 'received', text: 'يسعد أن بنتك قد تطورت وتحسنت في القراءة والكتابة واصبحت لديها ثقة أكبر بنفسها هذا إنجاز رائع وفخر للمدرسة والمعلمين والمعلمات', time: '7:49 AM' },
+                            { type: 'sent', text: 'نقدر تقديركم الجهود المبذولة في المدرسة ونأمل أن نستمر في تقديم أفضل التجارب التعليمية لأبنائنا وبناتنا', time: '11:40 AM' }
+                        ]
+                    },
+                    {
+                        label: 'النتيجة النهائي',
+                        date: '28 August 2023',
+                        messages: [
+                            { type: 'sent', text: 'هذا الطفل عمره 6 سنوات فقط! وهذه أسرع طريقة علمية جعلته يقرأ الانجليزية من الصفر في أسبوعين فقط ✨', time: '5:43 PM' },
+                            { type: 'received', text: 'ماشاء الله تبارك الله! النتائج مذهلة والتقدم واضح جداً والتغيير واضح نراه يتحدث بنفسه وبنجاحه 🎉', time: '5:48 PM' }
+                        ]
+                    }
+                ]
+            },
+            {
+                code: 'ae', name: 'الإمارات',
+                flagUrl: 'https://flagcdn.com/w160/ae.png',
+                studentName: 'الطفل أحمد - الإمارات',
+                motherName: 'أم محمد الإمارات',
+                cards: [
+                    {
+                        label: 'قبل',
+                        date: '17 August 2023',
+                        messages: [
+                            { type: 'received', text: 'السلام عليكم ورحمة الله وبركاته شكراً جزيلاً لكل أساتذه وأساتذة المدرسة مدرسة مميزة جداً بأسلوبها ومنهاجها وكادرها', time: '11:35 AM' },
+                            { type: 'sent', text: 'بشرككم الحمد لله أحمد بدأ يقرأ وتكتب بشكل أحسن وتقرق بين الأصوات وصار عنده ثقة أكبر', time: '11:40 AM' }
+                        ]
+                    },
+                    {
+                        label: 'بعد',
+                        date: '18 August 2023',
+                        messages: [
+                            { type: 'sent', text: 'الحمد لله تاريخه ألله عليه صحيح مشرق وهو جداً متقدم ونهتم أن التقدم لم يكن ممكن بدون جهودكم', time: '4:36 PM' },
+                            { type: 'received', text: 'ماشاء الله عليه! تبارك الله أحمد تطور بسرعة كبيرة والنتائج واضحة ونحن فخورون به ✨', time: '4:38 PM' }
+                        ]
+                    },
+                    {
+                        label: 'النتيجة النهائي',
+                        date: '18 August 2023',
+                        messages: [
+                            { type: 'received', text: 'شكراً لكم دائماً موجودين ومتعاونين ومهتمين بالأطفال. أحمد صار يقرأ بطلاقة والفضل لله ثم لكم 🌟', time: '5:22 AM' },
+                            { type: 'sent', text: 'هذا واجبنا ونسعد أن نكون جزء من رحلة نجاح أحمد في التعلم 🎉', time: '5:22 AM' }
+                        ]
+                    }
+                ]
+            },
+            {
+                code: 'sa', name: 'السعودية',
+                flagUrl: 'https://flagcdn.com/w160/sa.png',
+                studentName: 'الطفلة سارة - السعودية',
+                motherName: 'أم سارة السعودية',
+                cards: [
+                    {
+                        label: 'قبل',
+                        date: '10 September 2023',
+                        messages: [
+                            { type: 'sent', text: 'السلام عليكم ورحمة الله وبركاته أنا أم سارة من السعودية بنتي تحتاج دعم في القراءة والكتابة الإنجليزية', time: '8:47 AM' },
+                            { type: 'received', text: 'وعليكم السلام أهلاً وسهلاً بكم إن شاء الله سنساعد سارة بأفضل الطرق العلمية المبتكرة', time: '8:50 AM' }
+                        ]
+                    },
+                    {
+                        label: 'بعد',
+                        date: '25 September 2023',
+                        messages: [
+                            { type: 'received', text: 'ماشاء الله سارة بنتي تقرأ الحمدلله وتكتب وعندها ثقة كبيرة بنفسها بنتي تقرأ الحمدلله وتكتب ومنها عها ثقة كبيرة بنفسها وأيضاً 🌟', time: '1:35 PM' },
+                            { type: 'sent', text: 'يسعدنا أن سارة تطورت بشكل ملحوظ والحمد لله النتائج رائعة ونحن فخورون بها', time: '1:38 PM' }
+                        ]
+                    },
+                    {
+                        label: 'النتيجة النهائي',
+                        date: '2 October 2023',
+                        messages: [
+                            { type: 'sent', text: 'الحمد لله سارة حصلت على أعلى درجات في اختبار القراءة! تغيير جذري في مستواها ✨', time: '11:35 AM' },
+                            { type: 'received', text: 'مبروك لسارة! هذا نتاج الجهود المشتركة بين المدرسة والأهل. نتمنى لها مزيد من النجاح 🎉', time: '11:40 AM' }
+                        ]
+                    }
+                ]
+            },
+            {
+                code: 'de', name: 'ألمانيا',
+                flagUrl: 'https://flagcdn.com/w160/de.png',
+                studentName: 'الطفلة ليان - ألمانيا',
+                motherName: 'أم سياد ألمانيا',
+                cards: [
+                    {
+                        label: 'قبل',
+                        date: '16 September 2023',
+                        messages: [
+                            { type: 'received', text: 'السلام عليكم ورحمة الله نحن في ألمانيا وصعب نلاقي معلمين عرب يعلمون الإنجليزية بطريقة مناسبة لأطفالنا', time: '8:47 AM' },
+                            { type: 'sent', text: 'أهلاً وسهلاً بكم من ألمانيا 🇩🇪 إن شاء الله ليان ستتقدم معنا بسرعة رغم المسافة', time: '8:50 AM' }
+                        ]
+                    },
+                    {
+                        label: 'بعد',
+                        date: '2 October 2023',
+                        messages: [
+                            { type: 'sent', text: 'شكراً جزيلاً للمدرسة والمعلمات ليان بدأت تقرأ وتكتب بشكل أفضل بكثير الحمدلله والطريقة ممتعة', time: '1:35 PM' },
+                            { type: 'received', text: 'ماشاء الله تبارك الله ليان بنت ذكية والنتائج واضحة. نحن سعيدون بتقدمها الرائع 🌟', time: '1:38 PM' }
+                        ]
+                    },
+                    {
+                        label: 'النتيجة النهائي',
+                        date: '15 October 2023',
+                        messages: [
+                            { type: 'received', text: 'الحمد لله ليان صارت تقرأ بطلاقة رغم صعوبة التعلم في الغربة. منهجكم ممتاز ✨', time: '11:35 AM' },
+                            { type: 'sent', text: 'يسعدنا نجاح ليان! المسافات لا تمنع التعلم والتطور. فخورون بها وبكم 🎉', time: '11:40 AM' }
+                        ]
+                    }
+                ]
+            },
+            {
+                code: 'qa', name: 'قطر',
+                flagUrl: 'https://flagcdn.com/w160/qa.png',
+                studentName: 'الطفل خالد - قطر',
+                motherName: 'أم خالد قطر',
+                cards: [
+                    {
+                        label: 'قبل',
+                        date: '20 August 2023',
+                        messages: [
+                            { type: 'sent', text: 'السلام عليكم نحتاج مساعدة لخالد في تعلم القراءة الإنجليزية عمره 7 سنوات ويعاني من الأصوات', time: '9:15 AM' },
+                            { type: 'received', text: 'وعليكم السلام ورحمة الله إن شاء الله سنبدأ معه من الأساسيات بالطريقة المناسبة لعمره', time: '9:20 AM' }
+                        ]
+                    },
+                    {
+                        label: 'بعد',
+                        date: '10 September 2023',
+                        messages: [
+                            { type: 'received', text: 'ماشاء الله خالد بدأ يقرأ كلمات كاملة! تعلم أصوات الحروف والآن يدمجها بسهولة فخورة جداً 💪', time: '3:30 PM' },
+                            { type: 'sent', text: 'الحمد لله خالد ذكي جداً والتزامكم معنا ساعد كثيراً في تسريع تقدمه', time: '3:35 PM' }
+                        ]
+                    },
+                    {
+                        label: 'النتيجة النهائي',
+                        date: '15 September 2023',
+                        messages: [
+                            { type: 'sent', text: 'خالد الآن يقرأ جمل كاملة! المعلمة في المدرسة لاحظت الفرق الكبير في مستواه ✨', time: '4:00 PM' },
+                            { type: 'received', text: 'مبروك لخالد! هذا إنجاز رائع ونحن سعيدون بنجاحه المذهل 🎉', time: '4:05 PM' }
+                        ]
+                    }
+                ]
+            },
+            {
+                code: 'bh', name: 'البحرين',
+                flagUrl: 'https://flagcdn.com/w160/bh.png',
+                studentName: 'الطفلة مريم - البحرين',
+                motherName: 'أم مريم البحرين',
+                cards: [
+                    {
+                        label: 'قبل',
+                        date: '5 August 2023',
+                        messages: [
+                            { type: 'received', text: 'أنا أم مريم من البحرين بنتي عمرها 5 سنوات وأريد أبدأ معها تعلم الإنجليزية من الصفر', time: '10:00 AM' },
+                            { type: 'sent', text: 'أهلاً أم مريم! إن شاء الله سنبدأ معها بالأساسيات بطريقة ممتعة وتفاعلية', time: '10:05 AM' }
+                        ]
+                    },
+                    {
+                        label: 'بعد',
+                        date: '25 August 2023',
+                        messages: [
+                            { type: 'sent', text: 'ماشاء الله مريم بدأت تعرف كل الحروف وأصواتها! الطريقة ممتعة وبنتي تحبها 🥰', time: '2:15 PM' },
+                            { type: 'received', text: 'الحمد لله! مريم ذكية وتحب التعلم استمروا معها والنتائج ستكون رائعة', time: '2:20 PM' }
+                        ]
+                    },
+                    {
+                        label: 'النتيجة النهائي',
+                        date: '5 September 2023',
+                        messages: [
+                            { type: 'received', text: 'مريم الآن تقرأ كلمات وجمل! من الصفر في شهر واحد فقط! شكراً على منهجكم الرائع ✨', time: '6:00 PM' },
+                            { type: 'sent', text: 'تبارك الله! مريم مبدعة والتزام الأهل معها ساعد كثيراً 🌟', time: '6:10 PM' }
+                        ]
+                    }
+                ]
+            },
+            {
+                code: 'om', name: 'عُمان',
+                flagUrl: 'https://flagcdn.com/w160/om.png',
+                studentName: 'الطفل سالم - عُمان',
+                motherName: 'أم سالم عُمان',
+                cards: [
+                    {
+                        label: 'قبل',
+                        date: '12 August 2023',
+                        messages: [
+                            { type: 'sent', text: 'مرحباً نحتاج دعم في تعليم سالم القراءة عمره 8 سنوات ومستواه يحتاج تحسين في الإنجليزية', time: '11:00 AM' },
+                            { type: 'received', text: 'أهلاً وسهلاً! سنبدأ تقييم مستوى سالم ونضع خطة مناسبة له إن شاء الله', time: '11:10 AM' }
+                        ]
+                    },
+                    {
+                        label: 'بعد',
+                        date: '2 September 2023',
+                        messages: [
+                            { type: 'received', text: 'ماشاء الله سالم تطور كثيراً! أصبح يقرأ أفضل والمعلمة أشادت بتقدمه الملحوظ 💫', time: '5:30 PM' },
+                            { type: 'sent', text: 'الحمد لله! التزام سالم وحماسه للتعلم ساعدا كثيراً. استمروا بالتميز', time: '5:35 PM' }
+                        ]
+                    },
+                    {
+                        label: 'النتيجة النهائي',
+                        date: '20 September 2023',
+                        messages: [
+                            { type: 'sent', text: 'سالم حصل على أعلى درجة في اختبار القراءة! فرق كبير عن ما كان عليه ✨', time: '8:00 AM' },
+                            { type: 'received', text: 'مبارك لسالم! نحن فخورون بإنجازه ونشكركم على ثقتكم 🎉', time: '8:05 AM' }
+                        ]
+                    }
+                ]
+            },
+            {
+                code: 'dz', name: 'الجزائر',
+                flagUrl: 'https://flagcdn.com/w160/dz.png',
+                studentName: 'الطفل ياسين - الجزائر',
+                motherName: 'أم ياسين الجزائر',
+                cards: [
+                    {
+                        label: 'قبل',
+                        date: '12 September 2022',
+                        messages: [
+                            { type: 'received', text: 'السلام عليكم وجدت برنامجكم عبر الانترنت ابني ياسين يحتاج مساعدة في تعلم الإنجليزية', time: '12:30 PM' },
+                            { type: 'sent', text: 'وعليكم السلام! أهلاً بكم من الجزائر 🇩🇿 سنبدأ مع ياسين بأفضل طريقة', time: '12:35 PM' }
+                        ]
+                    },
+                    {
+                        label: 'بعد',
+                        date: '28 September 2022',
+                        messages: [
+                            { type: 'sent', text: 'ماشاء الله ياسين بدأ يقرأ كلمات جديدة كل يوم! المنهج سهل وممتع ويحبه كثيراً 📚', time: '5:43 PM' },
+                            { type: 'received', text: 'الحمد لله! ياسين متحمس جداً والنتائج واضحة ونحن سعيدون بتقدمه', time: '5:48 PM' }
+                        ]
+                    },
+                    {
+                        label: 'النتيجة النهائي',
+                        date: '12 October 2022',
+                        messages: [
+                            { type: 'received', text: 'ياسين الآن يقرأ قصص بالإنجليزية بمفرده! تغيير جذري في مستواه. جزاكم الله خيراً ✨', time: '6:00 PM' },
+                            { type: 'sent', text: 'تبارك الله على ياسين! إنجاز رائع ونتمنى له مزيداً من النجاح 🌟', time: '6:05 PM' }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        // ============================================
+        // STATE
+        // ============================================
+        let activeIndex = 0;
+        const VISIBLE_COUNT = 5; // Show 5 flags at a time
+
+        // ============================================
+        // INITIALIZE
+        // ============================================
+        function init() {
+            buildFlags();
+            positionFlags();
+            updateContent(0, false);
+        }
+
+        // ============================================
+        // BUILD FLAG ELEMENTS
+        // ============================================
+        function buildFlags() {
+            const container = document.getElementById('flagsArc');
+            // Keep the arc connector
+            countries.forEach((country, index) => {
+                const flagEl = document.createElement('div');
+                flagEl.className = 'flag-item' + (index === 0 ? ' active' : '');
+                flagEl.dataset.index = index;
+                flagEl.innerHTML = `
+                <div class="flag-circle">
+                    <img src="${country.flagUrl}" alt="علم ${country.name}" loading="lazy">
+                </div>
+                <div class="flag-tooltip">${country.name}</div>
+                <div class="flag-badge">${country.testimonialCount || '3'}+</div>
+            `; flagEl.addEventListener('click', () => selectCountry(index));
+                container.appendChild(flagEl);
+            });
+        }
+
+        // ============================================
+        // POSITION FLAGS IN ARC
+        // ============================================
+        function positionFlags() {
+            const container = document.getElementById('flagsArc');
+            const containerWidth = container.offsetWidth;
+            const flags = container.querySelectorAll('.flag-item');
+            const total = countries.length;
+            const isMobile = window.innerWidth <= 600;
+            const isTablet = window.innerWidth <= 900;
+
+            // Sizes
+            const activeSize = isMobile ? 80 : 110;
+            const normalSize = isMobile ? 50 : 70;
+
+            // Arc parameters - tighter spacing so ALL 8 flags fit
+            const centerX = containerWidth / 2;
+            const spacing = isMobile ? 45 : (isTablet ? 60 : 75);
+
+            // Values for distance 0 through 4 (covers all 8 flags: center + 4 on each side max)
+            const yOffsets = [0, 18, 40, 58, 72];
+            const scaleFactors = [1, 0.88, 0.76, 0.65, 0.55];
+            const opacityValues = [1, 0.95, 0.85, 0.7, 0.55];
+
+            flags.forEach((flag, i) => {
+                // Calculate distance from active in circular manner
+                let dist = i - activeIndex;
+                if (dist > total / 2) dist -= total;
+                if (dist < -total / 2) dist += total;
+
+                const absDist = Math.abs(dist);
+                const isActive = i === activeIndex;
+                const size = isActive ? activeSize : normalSize;
+
+                // X position: center + offset based on distance
+                const xOffset = dist * spacing;
+                const x = centerX + xOffset - size / 2;
+
+                // Y position from arc curve
+                const yVal = yOffsets[Math.min(absDist, yOffsets.length - 1)];
+                const y = isActive ? 0 : (isMobile ? yVal * 0.7 : yVal);
+
+                // Scale and opacity
+                const scale = isActive ? 1 : (scaleFactors[Math.min(absDist, scaleFactors.length - 1)]);
+                const opacity = opacityValues[Math.min(absDist, opacityValues.length - 1)];
+
+                flag.style.left = `${x}px`;
+                flag.style.top = `${y}px`;
+                flag.style.opacity = String(opacity);
+                flag.style.pointerEvents = 'auto';
+                flag.style.zIndex = isActive ? '10' : String(5 - absDist);
+
+                // Set class
+                if (isActive) {
+                    flag.classList.add('active');
+                    flag.querySelector('.flag-circle').style.transform = '';
+                } else {
+                    flag.classList.remove('active');
+                    flag.querySelector('.flag-circle').style.transform = `scale(${scale})`;
+                }
+            });
+        }
+
+        // ============================================
+        // SELECT COUNTRY
+        // ============================================
+        function selectCountry(index) {
+            if (index === activeIndex) return;
+
+            activeIndex = index;
+            positionFlags();
+            updateContent(index, true);
+        }
+
+        // ============================================
+        // UPDATE CONTENT
+        // ============================================
+        function updateContent(index, animate) {
+            const country = countries[index];
+            const nameEl = document.getElementById('studentName');
+            const cardsEl = document.getElementById('cardsContainer');
+
+            // Update name with animation
+            if (animate) {
+                nameEl.classList.add('fade-out');
+                setTimeout(() => {
+                    nameEl.textContent = country.studentName;
+                    nameEl.classList.remove('fade-out');
+                }, 300);
+            } else {
+                nameEl.textContent = country.studentName;
+            }
+
+            // Re-trigger star animation
+            if (animate) {
+                const starContainer = document.getElementById('starRating');
+                const starsHTML = starContainer.innerHTML;
+                starContainer.innerHTML = '';
+                requestAnimationFrame(() => { starContainer.innerHTML = starsHTML; });
+            }
+
+            // Build cards
+            let cardsHTML = '';
+            country.cards.forEach((card) => {
+                let msgsHTML = '';
+                card.messages.forEach(msg => {
+                    msgsHTML += `
+                    <div class="chat-bubble ${msg.type}">
+                        ${msg.text}
+                        <div class="time">${msg.time}</div>
+                    </div>`;
+                });
+
+                cardsHTML += `
+                <div class="testimonial-card" onclick="this.classList.toggle('flipped')">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="card-header">
+                                <div class="contact-avatar">${country.motherName.charAt(0)}</div>
+                                <div class="contact-info">
+                                    <div class="contact-name">${country.motherName}</div>
+                                    <div class="contact-status">متصل الآن</div>
+                                </div>
+                                <div class="header-icons">
+                                    <span>📞</span><span>📹</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chat-date"><span>${card.date}</span></div>
+                                ${msgsHTML}
+                            </div>
+                            <div class="card-label ${card.label === 'قبل' ? 'label-before' : card.label === 'بعد' ? 'label-after' : 'label-result'}">
+                                <span class="label-icon">${card.label === 'قبل' ? '📋' : card.label === 'بعد' ? '📈' : '🏆'}</span>
+                                ${card.label}
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="back-icon">${card.label === 'قبل' ? '📋' : card.label === 'بعد' ? '📈' : '🏆'}</div>
+                            <div class="back-text">${card.label === 'قبل' ? 'هذه المرحلة الأولى من رحلة التعلم مع تعلّم مع فارس. البداية دائماً مميزة!' : card.label === 'بعد' ? 'بعد فترة قصيرة من التعلم، بدأت النتائج تظهر بشكل واضح ✨' : 'النتيجة النهائية مذهلة! تغيير جذري في مستوى الطفل 🏆'}</div>
+                            <div class="back-hint">اضغط للرجوع</div>
+                        </div>
+                    </div>
+                </div>`;
+            });
+
+            cardsEl.innerHTML = cardsHTML;
+
+            // Animate cards in
+            const cards = cardsEl.querySelectorAll('.testimonial-card');
+            if (animate) {
+                cards.forEach((card, i) => {
+                    setTimeout(() => card.classList.add('visible'), 80 + i * 150);
+                });
+            } else {
+                cards.forEach(card => card.classList.add('visible'));
+            }
+        }
+
+        // ============================================
+        // RESIZE HANDLER
+        // ============================================
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(positionFlags, 100);
+        });
+
+        // ============================================
+        // IMPROVEMENT 5: KEYBOARD NAVIGATION
+        // ============================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                const prev = (activeIndex - 1 + countries.length) % countries.length;
+                selectCountry(prev);
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                const next = (activeIndex + 1) % countries.length;
+                selectCountry(next);
+            }
+        });
+
+        // ============================================
+        // IMPROVEMENT 6: SWIPE GESTURE SUPPORT
+        // ============================================
+        let touchStartX = 0;
+        let touchStartY = 0;
+        document.getElementById('testimonials').addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+        document.getElementById('testimonials').addEventListener('touchend', (e) => {
+            const dx = e.changedTouches[0].screenX - touchStartX;
+            const dy = e.changedTouches[0].screenY - touchStartY;
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+                if (dx > 0) {
+                    selectCountry((activeIndex + 1) % countries.length);
+                } else {
+                    selectCountry((activeIndex - 1 + countries.length) % countries.length);
+                }
+            }
+        }, { passive: true });
+
+        // ============================================
+        // SCROLL REVEAL OBSERVER
+        // ============================================
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, { threshold: 0.15 });
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                revealObserver.observe(el);
+            });
+        });
+
+        // ============================================
+        // NAV ARROWS
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('navRight').addEventListener('click', () => {
+                selectCountry((activeIndex - 1 + countries.length) % countries.length);
+            });
+            document.getElementById('navLeft').addEventListener('click', () => {
+                selectCountry((activeIndex + 1) % countries.length);
+            });
+        });
+
+        // ============================================
+        // CONFETTI BURST
+        // ============================================
+        function burstConfetti() {
+            const colors = ['#2ecc71', '#e74c3c', '#f1c40f', '#3498db', '#9b59b6', '#1abc9c', '#e67e22'];
+            for (let i = 0; i < 25; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = (40 + Math.random() * 20) + '%';
+                piece.style.top = '20%';
+                piece.style.width = (6 + Math.random() * 6) + 'px';
+                piece.style.height = (6 + Math.random() * 6) + 'px';
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                piece.style.animation = `confettiFall ${1.5 + Math.random() * 2}s ease-out forwards`;
+                piece.style.animationDelay = (Math.random() * 0.3) + 's';
+                document.body.appendChild(piece);
+                setTimeout(() => piece.remove(), 4000);
+            }
+        }
+
+        // ============================================
+        // DARK MODE TOGGLE
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggle = document.getElementById('darkToggle');
+            toggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                toggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            });
+        });
+
+        // ============================================
+        // HOOK CONFETTI INTO SELECT
+        // ============================================
+        const _origSelect = selectCountry;
+        selectCountry = function (index) {
+            _origSelect(index);
+            burstConfetti();
+        };
+
+        // ============================================
+        // START
+        // ============================================
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+
+</body>
+
+</html>
