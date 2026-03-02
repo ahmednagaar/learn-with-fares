@@ -120,7 +120,7 @@
             gap: 0;
             max-width: 1200px;
             margin: 0 auto;
-            height: 200px;
+            height: 350px;
             position: relative;
         }
 
@@ -211,18 +211,117 @@
             }
         }
 
-        /* Connector line between flags */
+        /* SVG arc path connector */
         .arc-connector {
             position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            height: 80px;
-            border-bottom: 3px dashed rgba(46, 204, 113, 0.15);
-            border-radius: 0 0 50% 50%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 0;
+        }
+
+        .arc-connector svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .arc-path-line {
+            fill: none;
+            stroke: rgba(46, 204, 113, 0.12);
+            stroke-width: 2.5;
+            stroke-dasharray: 8 6;
+        }
+
+        .arc-path-glow {
+            fill: none;
+            stroke: rgba(46, 204, 113, 0.06);
+            stroke-width: 20;
+            filter: blur(4px);
+        }
+
+        body.dark-mode .arc-path-line {
+            stroke: rgba(74, 222, 128, 0.15);
+        }
+
+        body.dark-mode .arc-path-glow {
+            stroke: rgba(74, 222, 128, 0.08);
+        }
+
+        /* Active flag spotlight */
+        .flag-item.active::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+            animation: spotlightPulse 3s ease-in-out infinite;
+        }
+
+        /* Override the second pulse ring to avoid conflict */
+        .flag-item.active::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 2px solid rgba(46, 204, 113, 0.3);
+            width: 130%;
+            height: 130%;
+            pointer-events: none;
+            animation: pulseRing 2.5s ease-out infinite;
+        }
+
+        @keyframes spotlightPulse {
+
+            0%,
+            100% {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        /* Orbit decoration dots on the arc */
+        .arc-orbit-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(46, 204, 113, 0.3);
+            pointer-events: none;
+            z-index: 0;
+            animation: orbitDotPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes orbitDotPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.5);
+            }
+        }
+
+        body.dark-mode .arc-orbit-dot {
+            background: rgba(74, 222, 128, 0.3);
         }
 
         /* ============================================
@@ -717,6 +816,7 @@
 
             .flags-arc-container {
                 max-width: 700px;
+                height: 300px;
             }
         }
 
@@ -732,7 +832,7 @@
 
             .flags-arc-container {
                 max-width: 500px;
-                height: 150px;
+                height: 280px;
             }
 
             .flag-item.active .flag-circle {
@@ -751,6 +851,11 @@
 
             .flag-item.active .flag-name {
                 font-size: 0.68rem !important;
+            }
+
+            .flag-item.active::before {
+                width: 110px;
+                height: 110px;
             }
 
             .student-name {
@@ -1391,33 +1496,7 @@
             position: relative;
         }
 
-        /* ============================================
-           NEW 2: ACTIVE FLAG PULSE RINGS
-           ============================================ */
-        .flag-item.active::before,
-        .flag-item.active::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            border: 2px solid rgba(46, 204, 113, 0.4);
-            pointer-events: none;
-        }
-
-        .flag-item.active::before {
-            width: 130%;
-            height: 130%;
-            animation: pulseRing 2s ease-out infinite;
-        }
-
-        .flag-item.active::after {
-            width: 130%;
-            height: 130%;
-            animation: pulseRing 2s ease-out infinite 1s;
-        }
-
+        /* pulseRing keyframes used by the arc spotlight */
         @keyframes pulseRing {
             0% {
                 transform: translate(-50%, -50%) scale(0.8);
@@ -2691,6 +2770,7 @@
         // INITIALIZE
         // ============================================
         function init() {
+            buildArcConnector();
             buildFlags();
             positionFlags();
             buildProgressDots();
@@ -2722,11 +2802,26 @@
         }
 
         // ============================================
-        // POSITION FLAGS IN ARC
+        // BUILD ARC CONNECTOR (SVG semi-circle path)
+        // ============================================
+        function buildArcConnector() {
+            const connectorEl = document.querySelector('.arc-connector');
+            if (!connectorEl) return;
+            connectorEl.innerHTML = `
+                <svg viewBox="0 0 1000 400" preserveAspectRatio="none">
+                    <path class="arc-path-glow" id="arcGlow" d=""/>
+                    <path class="arc-path-line" id="arcLine" d=""/>
+                </svg>
+            `;
+        }
+
+        // ============================================
+        // POSITION FLAGS IN SEMI-CIRCLE
         // ============================================
         function positionFlags() {
             const container = document.getElementById('flagsArc');
             const containerWidth = container.offsetWidth;
+            const containerHeight = container.offsetHeight;
             const flags = container.querySelectorAll('.flag-item');
             const total = countries.length;
             const isMobile = window.innerWidth <= 600;
@@ -2736,17 +2831,23 @@
             const activeSize = isMobile ? 80 : 110;
             const normalSize = isMobile ? 50 : 70;
 
-            // Arc parameters - tighter spacing so ALL 15 flags fit
+            // Semi-circle parameters
             const centerX = containerWidth / 2;
-            const spacing = isMobile ? 32 : (isTablet ? 42 : 55);
+            const centerY = containerHeight - 30; // Bottom center of the arc
+            const radiusX = (containerWidth / 2) * (isMobile ? 0.82 : (isTablet ? 0.78 : 0.75));
+            const radiusY = containerHeight * (isMobile ? 0.7 : 0.78);
 
-            // Values for distance 0 through 7 (covers all 15 flags: center + 7 on each side max)
-            const yOffsets = [0, 12, 28, 42, 55, 65, 73, 78];
-            const scaleFactors = [1, 0.9, 0.8, 0.72, 0.64, 0.56, 0.5, 0.45];
-            const opacityValues = [1, 0.95, 0.88, 0.78, 0.68, 0.58, 0.48, 0.4];
+            // How many visible flags on each side
+            const maxVisible = isMobile ? 3 : (isTablet ? 4 : 6);
+
+            // Angle spread: PI radians = 180 degrees for a semi-circle
+            // Active flag is at the top (PI/2 = 90°)
+            // Others spread outward from center
+            const angleSpread = Math.PI * 0.85; // Use 85% of the semicircle for breathing room
+            const startAngle = (Math.PI - angleSpread) / 2; // Offset from the edges
 
             flags.forEach((flag, i) => {
-                // Calculate distance from active in circular manner
+                // Calculate circular distance from active
                 let dist = i - activeIndex;
                 if (dist > total / 2) dist -= total;
                 if (dist < -total / 2) dist += total;
@@ -2755,33 +2856,103 @@
                 const isActive = i === activeIndex;
                 const size = isActive ? activeSize : normalSize;
 
-                // X position: center + offset based on distance
-                const xOffset = dist * spacing;
-                const x = centerX + xOffset - size / 2;
+                // Hide flags that are too far from active
+                if (absDist > maxVisible) {
+                    flag.style.opacity = '0';
+                    flag.style.pointerEvents = 'none';
+                    flag.style.left = `${centerX - size / 2}px`;
+                    flag.style.top = `${centerY - size / 2}px`;
+                    flag.classList.remove('active');
+                    return;
+                }
 
-                // Y position from arc curve
-                const yVal = yOffsets[Math.min(absDist, yOffsets.length - 1)];
-                const y = isActive ? 0 : (isMobile ? yVal * 0.7 : yVal);
+                // Calculate angle for this flag on the semi-circle
+                // Active flag at PI/2 (top), others spread out
+                const angleStep = angleSpread / (maxVisible * 2 + 1);
+                const angle = (Math.PI / 2) + (dist * angleStep);
 
-                // Scale and opacity
-                const scale = isActive ? 1 : (scaleFactors[Math.min(absDist, scaleFactors.length - 1)]);
-                const opacity = opacityValues[Math.min(absDist, opacityValues.length - 1)];
+                // Clamp angle to stay within the semi-circle
+                const clampedAngle = Math.max(startAngle, Math.min(Math.PI - startAngle, angle));
+
+                // Calculate position using trigonometry
+                const x = centerX + radiusX * Math.cos(clampedAngle) - size / 2;
+                const y = centerY - radiusY * Math.sin(clampedAngle) - size / 2;
+
+                // Scale and opacity based on distance
+                const scaleFactor = isActive ? 1 : Math.max(0.5, 1 - absDist * 0.1);
+                const opacityVal = isActive ? 1 : Math.max(0.35, 1 - absDist * 0.12);
 
                 flag.style.left = `${x}px`;
                 flag.style.top = `${y}px`;
-                flag.style.opacity = String(opacity);
+                flag.style.opacity = String(opacityVal);
                 flag.style.pointerEvents = 'auto';
-                flag.style.zIndex = isActive ? '10' : String(5 - absDist);
+                flag.style.zIndex = isActive ? '10' : String(Math.max(1, 8 - absDist));
 
-                // Set class
                 if (isActive) {
                     flag.classList.add('active');
                     flag.querySelector('.flag-circle').style.transform = '';
                 } else {
                     flag.classList.remove('active');
-                    flag.querySelector('.flag-circle').style.transform = `scale(${scale})`;
+                    flag.querySelector('.flag-circle').style.transform = `scale(${scaleFactor})`;
                 }
             });
+
+            // Update SVG arc path
+            updateArcPath(centerX, centerY, radiusX, radiusY, angleSpread, startAngle);
+            // Update orbit dots
+            updateOrbitDots(centerX, centerY, radiusX, radiusY, angleSpread, startAngle);
+        }
+
+        // ============================================
+        // UPDATE SVG ARC PATH
+        // ============================================
+        function updateArcPath(cx, cy, rx, ry, spread, startAngle) {
+            const container = document.getElementById('flagsArc');
+            const svgLine = document.getElementById('arcLine');
+            const svgGlow = document.getElementById('arcGlow');
+            if (!svgLine || !svgGlow || !container) return;
+
+            const w = container.offsetWidth;
+            const h = container.offsetHeight;
+
+            // Build arc path as a series of points
+            const steps = 50;
+            let pathD = '';
+            for (let i = 0; i <= steps; i++) {
+                const t = i / steps;
+                const angle = startAngle + t * spread;
+                const px = (cx + rx * Math.cos(angle)) / w * 1000;
+                const py = (cy - ry * Math.sin(angle)) / h * 400;
+                pathD += (i === 0 ? 'M' : 'L') + `${px.toFixed(1)},${py.toFixed(1)} `;
+            }
+
+            svgLine.setAttribute('d', pathD);
+            svgGlow.setAttribute('d', pathD);
+        }
+
+        // ============================================
+        // ORBIT DECORATION DOTS
+        // ============================================
+        function updateOrbitDots(cx, cy, rx, ry, spread, startAngle) {
+            const container = document.getElementById('flagsArc');
+            // Remove old dots
+            container.querySelectorAll('.arc-orbit-dot').forEach(d => d.remove());
+
+            // Add 8 small decorative dots along the arc
+            const dotCount = 8;
+            for (let i = 0; i < dotCount; i++) {
+                const t = (i + 0.5) / dotCount;
+                const angle = startAngle + t * spread;
+                const dotX = cx + rx * Math.cos(angle);
+                const dotY = cy - ry * Math.sin(angle);
+
+                const dot = document.createElement('div');
+                dot.className = 'arc-orbit-dot';
+                dot.style.left = `${dotX - 3}px`;
+                dot.style.top = `${dotY - 3}px`;
+                dot.style.animationDelay = `${i * 0.4}s`;
+                container.appendChild(dot);
+            }
         }
 
         // ============================================
