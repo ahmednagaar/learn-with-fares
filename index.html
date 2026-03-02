@@ -110,6 +110,7 @@
             position: relative;
             z-index: 4;
             margin-bottom: 20px;
+            padding: 0 70px;
         }
 
         .flags-arc-container {
@@ -1306,7 +1307,6 @@
             position: absolute;
             inset: 0;
             background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.4);
             z-index: -1;
@@ -1320,6 +1320,10 @@
         /* ============================================
            STUDENT NAME PILL
            ============================================ */
+        .student-name-wrapper {
+            text-align: center;
+        }
+
         .student-name {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
             backdrop-filter: blur(5px);
@@ -1586,7 +1590,7 @@
            ============================================== */
         .share-btn {
             position: absolute;
-            top: 12px;
+            top: 60px;
             left: 12px;
             width: 32px;
             height: 32px;
@@ -1688,15 +1692,15 @@
            F6: LABEL-COLORED CARD BORDERS AT REST
            ============================================== */
         .testimonial-card:has(.label-before) {
-            border-left: 3px solid rgba(230, 126, 34, 0.4);
+            border-right: 3px solid rgba(230, 126, 34, 0.4);
         }
 
         .testimonial-card:has(.label-after) {
-            border-left: 3px solid rgba(41, 128, 185, 0.4);
+            border-right: 3px solid rgba(41, 128, 185, 0.4);
         }
 
         .testimonial-card:has(.label-result) {
-            border-left: 3px solid rgba(46, 204, 113, 0.4);
+            border-right: 3px solid rgba(46, 204, 113, 0.4);
         }
 
         /* ==============================================
@@ -1838,6 +1842,9 @@
 
 <body>
 
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress-bar" id="scrollProgress"></div>
+
     <!-- Dark Mode Toggle -->
     <button class="dark-mode-toggle" id="darkToggle" aria-label="تبديل الوضع الليلي">🌙</button>
 
@@ -1887,7 +1894,19 @@
         </div>
 
         <!-- Student Name -->
-        <div class="student-name" id="studentName"></div>
+        <div class="student-name-wrapper">
+            <div class="student-name" id="studentName"></div>
+        </div>
+
+        <!-- Testimonial Counter -->
+        <div class="testimonial-counter">
+            <div class="counter-badge">
+                <span class="counter-num" id="counterCurrent">1</span>
+                <span>من</span>
+                <span class="counter-num" id="counterTotal">8</span>
+                <span>دول</span>
+            </div>
+        </div>
 
         <!-- Testimonial Cards -->
         <div class="cards-container" id="cardsContainer"></div>
@@ -1907,15 +1926,44 @@
             </a>
         </div>
 
-    </section>
+        <!-- Stats Bar -->
+        <div class="stats-bar reveal-on-scroll">
+            <div class="stat-item">
+                <div class="stat-number" id="statStudents">0<span>+</span></div>
+                <div class="stat-label">طالب وطالبة</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="statCountries">0<span>+</span></div>
+                <div class="stat-label">دولة حول العالم</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="statReviews">0<span>+</span></div>
+                <div class="stat-label">تقييم إيجابي</div>
+            </div>
+        </div>
 
-    <!-- Wave Bottom Divider -->
-    <div style="position:relative;margin-top:-1px;">
-        <div class="wave-bottom" style="position:relative;">
+        <!-- Trust Badge -->
+        <div class="trust-badge reveal-on-scroll">
+            <div class="badge-icon">✓</div>
+            <span>موثوق من مئات الأمهات</span>
+            <span class="badge-stars">★★★★★</span>
+        </div>
+
+        <!-- Wave Bottom Divider -->
+        <div class="wave-bottom">
             <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
                 <path d="M0,60 C200,0 400,50 600,25 C800,0 1000,45 1200,20 L1200,60 Z"></path>
             </svg>
         </div>
+
+    </section>
+
+    <!-- Keyboard Hint -->
+    <div class="keyboard-hint" id="keyboardHint">
+        <span>استخدمي</span>
+        <kbd>←</kbd>
+        <kbd>→</kbd>
+        <span>للتنقل بين الدول</span>
     </div>
 
     <!-- WhatsApp Float -->
@@ -2193,7 +2241,11 @@
         // STATE
         // ============================================
         let activeIndex = 0;
-        const VISIBLE_COUNT = 5; // Show 5 flags at a time
+        const VISIBLE_COUNT = 5;
+        let autoRotateInterval = null;
+        let autoRotateStart = 0;
+        let autoRotateRAF = null;
+        const AUTO_ROTATE_DELAY = 6000; // 6 seconds
 
         // ============================================
         // INITIALIZE
@@ -2201,7 +2253,10 @@
         function init() {
             buildFlags();
             positionFlags();
+            buildProgressDots();
             updateContent(0, false);
+            startAutoRotate();
+            document.getElementById('counterTotal').textContent = countries.length;
         }
 
         // ============================================
@@ -2297,6 +2352,12 @@
             activeIndex = index;
             positionFlags();
             updateContent(index, true);
+            updateProgressDots();
+            // Update counter
+            const counterEl = document.getElementById('counterCurrent');
+            if (counterEl) counterEl.textContent = index + 1;
+            // Reset auto-rotate timer
+            resetAutoRotate();
         }
 
         // ============================================
@@ -2501,6 +2562,115 @@
         // START
         // ============================================
         document.addEventListener('DOMContentLoaded', init);
+
+        // ============================================
+        // BUILD PROGRESS DOTS
+        // ============================================
+        function buildProgressDots() {
+            const dotsContainer = document.getElementById('progressDots');
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            countries.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', () => selectCountry(i));
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function updateProgressDots() {
+            const dots = document.querySelectorAll('.progress-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === activeIndex);
+            });
+        }
+
+        // ============================================
+        // AUTO-ROTATE TIMER
+        // ============================================
+        function startAutoRotate() {
+            autoRotateStart = Date.now();
+            updateAutoProgress();
+            autoRotateInterval = setInterval(() => {
+                const next = (activeIndex + 1) % countries.length;
+                selectCountry(next);
+            }, AUTO_ROTATE_DELAY);
+        }
+
+        function resetAutoRotate() {
+            clearInterval(autoRotateInterval);
+            cancelAnimationFrame(autoRotateRAF);
+            const prog = document.getElementById('autoProgress');
+            if (prog) prog.style.width = '0%';
+            autoRotateStart = Date.now();
+            updateAutoProgress();
+            autoRotateInterval = setInterval(() => {
+                const next = (activeIndex + 1) % countries.length;
+                selectCountry(next);
+            }, AUTO_ROTATE_DELAY);
+        }
+
+        function updateAutoProgress() {
+            const prog = document.getElementById('autoProgress');
+            if (!prog) return;
+            const elapsed = Date.now() - autoRotateStart;
+            const pct = Math.min((elapsed / AUTO_ROTATE_DELAY) * 100, 100);
+            prog.style.width = pct + '%';
+            if (pct < 100) {
+                autoRotateRAF = requestAnimationFrame(updateAutoProgress);
+            }
+        }
+
+        // ============================================
+        // SCROLL PROGRESS BAR
+        // ============================================
+        window.addEventListener('scroll', () => {
+            const scrollBar = document.getElementById('scrollProgress');
+            if (!scrollBar) return;
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            scrollBar.style.width = scrollPct + '%';
+        });
+
+        // ============================================
+        // STATS COUNTER ANIMATION
+        // ============================================
+        function animateCounter(el, target, duration) {
+            let start = 0;
+            const startTime = Date.now();
+            function step() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out cubic
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(eased * target);
+                el.innerHTML = current + '<span>+</span>';
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    el.innerHTML = target + '<span>+</span>';
+                }
+            }
+            step();
+        }
+
+        // Animate stats when visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(document.getElementById('statStudents'), 500, 2000);
+                    animateCounter(document.getElementById('statCountries'), 8, 1500);
+                    animateCounter(document.getElementById('statReviews'), 300, 2000);
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const statsBar = document.querySelector('.stats-bar');
+            if (statsBar) statsObserver.observe(statsBar);
+        });
     </script>
 
 </body>
