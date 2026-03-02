@@ -2509,6 +2509,139 @@
             transform: scale(1);
             transition: opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s;
         }
+
+        /* ==============================================
+           ENH 11: ANIMATED WAVE DIVIDERS
+           ============================================== */
+        .wave-top svg path,
+        .wave-bottom svg path {
+            animation: waveUndulate 6s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        .wave-bottom svg path {
+            animation-delay: -3s;
+        }
+
+        @keyframes waveUndulate {
+
+            0%,
+            100% {
+                d: path('M0,60 C200,0 400,50 600,25 C800,0 1000,45 1200,20 L1200,60 Z');
+            }
+
+            50% {
+                d: path('M0,60 C200,40 400,10 600,35 C800,50 1000,15 1200,40 L1200,60 Z');
+            }
+        }
+
+        /* ==============================================
+           ENH 12: STAGGERED SCROLL REVEAL
+           ============================================== */
+        .section-entrance {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .section-entrance.entrance-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-entrance:nth-child(2) {
+            transition-delay: 0.1s;
+        }
+
+        .section-entrance:nth-child(3) {
+            transition-delay: 0.2s;
+        }
+
+        .section-entrance:nth-child(4) {
+            transition-delay: 0.3s;
+        }
+
+        .section-entrance:nth-child(5) {
+            transition-delay: 0.4s;
+        }
+
+        /* ==============================================
+           ENH 13: FLOATING STAR PARTICLES
+           ============================================== */
+        .floating-star {
+            position: absolute;
+            bottom: -20px;
+            pointer-events: none;
+            z-index: 1;
+            font-size: 1rem;
+            opacity: 0;
+            animation: starRise linear forwards;
+        }
+
+        @keyframes starRise {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg) scale(0.5);
+            }
+
+            15% {
+                opacity: 0.8;
+            }
+
+            85% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(360deg) scale(1.2);
+            }
+        }
+
+        /* ==============================================
+           ENH 14: 3D TILT ON STAT CARDS
+           ============================================== */
+        .stat-item {
+            perspective: 600px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-item:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        /* ==============================================
+           ENH 15: ANIMATED GRADIENT BOTTOM TEXT
+           ============================================== */
+        .bottom-text {
+            background: linear-gradient(135deg, #e74c3c, #f39c12, #e74c3c, #c0392b);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: bottomTextGlow 4s ease infinite;
+        }
+
+        @keyframes bottomTextGlow {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        body.dark-mode .bottom-text {
+            background: linear-gradient(135deg, #f87171, #fbbf24, #f87171, #ef4444);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: bottomTextGlow 4s ease infinite;
+        }
     </style>
 </head>
 
@@ -3784,6 +3917,68 @@
             for (let i = 0; i < 6; i++) {
                 setTimeout(createSparkle, i * 200);
             }
+        });
+
+        // ============================================
+        // ENH 13: FLOATING STAR PARTICLES
+        // ============================================
+        (function () {
+            const section = document.getElementById('testimonials');
+            if (!section) return;
+            const starEmojis = ['✨', '⭐', '🌟', '💫'];
+            function spawnStar() {
+                const star = document.createElement('div');
+                star.className = 'floating-star';
+                star.textContent = starEmojis[Math.floor(Math.random() * starEmojis.length)];
+                star.style.left = (10 + Math.random() * 80) + '%';
+                star.style.fontSize = (0.8 + Math.random() * 0.8) + 'rem';
+                star.style.animationDuration = (6 + Math.random() * 6) + 's';
+                section.appendChild(star);
+                setTimeout(() => star.remove(), 12000);
+            }
+            setInterval(spawnStar, 3000);
+            // Initial burst
+            for (let i = 0; i < 3; i++) {
+                setTimeout(spawnStar, i * 800);
+            }
+        })();
+
+        // ============================================
+        // ENH 12: SECTION ENTRANCE OBSERVER
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const entranceObs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('entrance-visible');
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            document.querySelectorAll('.section-entrance').forEach(el => {
+                entranceObs.observe(el);
+            });
+        });
+
+        // ============================================
+        // ENH 14: 3D TILT ON STAT CARDS
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.stat-item').forEach(item => {
+                item.addEventListener('mousemove', (e) => {
+                    const rect = item.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -8;
+                    const rotateY = ((x - centerX) / centerX) * 8;
+                    item.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+                });
+                item.addEventListener('mouseleave', () => {
+                    item.style.transform = 'perspective(600px) rotateX(0) rotateY(0) scale(1)';
+                });
+            });
         });
     </script>
 
