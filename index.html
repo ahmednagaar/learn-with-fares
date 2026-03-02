@@ -2743,6 +2743,47 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
+        /* ==============================================
+           SCROLL-TO-TOP BUTTON
+           ============================================== */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2ecc71, #1a8a6e);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 18px rgba(46, 204, 113, 0.35);
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top-btn:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 6px 24px rgba(46, 204, 113, 0.5);
+        }
+
+        body.dark-mode .scroll-top-btn {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+        }
     </style>
 </head>
 
@@ -2899,6 +2940,9 @@
                 d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.132 6.744 3.052 9.38L1.056 31.2l6.072-1.94C9.628 30.9 12.7 32 16.004 32 24.826 32 32 24.824 32 16S24.826 0 16.004 0zm9.312 22.608c-.396 1.116-1.94 2.04-3.216 2.312-.876.184-2.02.332-5.872-1.264-4.928-2.04-8.1-7.024-8.348-7.352-.24-.328-1.996-2.66-1.996-5.076 0-2.416 1.264-3.6 1.712-4.092.396-.432 1.044-.636 1.668-.636.2 0 .38.02.54.036.448.02.672.044.968.748.368.876 1.264 3.084 1.376 3.312.112.228.224.536.068.848-.14.32-.264.464-.492.728-.228.264-.444.464-.672.748-.208.244-.44.504-.188.948.252.448 1.124 1.852 2.412 3 1.66 1.476 3.06 1.936 3.5 2.148.328.16.72.128.976-.148.32-.356.716-.948 1.116-1.532.284-.42.644-.472 1.012-.328.372.14 2.372 1.12 2.78 1.324.408.2.68.304.78.472.1.168.1.972-.296 2.088z" />
         </svg>
     </a>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top-btn" id="scrollTopBtn" aria-label="العودة للأعلى">↑</button>
 
     <script>
         // ============================================
@@ -4081,6 +4125,22 @@
                 });
             });
         });
+
+        // SCROLL-TO-TOP BUTTON
+        (function () {
+            const btn = document.getElementById('scrollTopBtn');
+            if (!btn) return;
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    btn.classList.add('visible');
+                } else {
+                    btn.classList.remove('visible');
+                }
+            });
+            btn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        })();
     </script>
 
 </body>
