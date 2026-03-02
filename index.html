@@ -137,7 +137,7 @@
         }
 
         .flag-item .flag-circle {
-            border-radius: 50%;
+            border-radius: 25%;
             overflow: hidden;
             border: 4px solid #fff;
             box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
@@ -169,6 +169,34 @@
             height: 100%;
             object-fit: cover;
             display: block;
+        }
+
+        /* Country name label below flag */
+        .flag-name {
+            display: block;
+            text-align: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #555;
+            margin-top: 6px;
+            white-space: nowrap;
+            transition: all 0.4s ease;
+            opacity: 0.7;
+        }
+
+        .flag-item.active .flag-name {
+            font-size: 0.8rem;
+            color: #1a8a6e;
+            opacity: 1;
+            font-weight: 800;
+        }
+
+        body.dark-mode .flag-name {
+            color: #94a3b8;
+        }
+
+        body.dark-mode .flag-item.active .flag-name {
+            color: #4ade80;
         }
 
         @keyframes floatFlag {
@@ -715,6 +743,14 @@
             .flag-item:not(.active) .flag-circle {
                 width: 50px !important;
                 height: 50px !important;
+            }
+
+            .flag-name {
+                font-size: 0.55rem !important;
+            }
+
+            .flag-item.active .flag-name {
+                font-size: 0.68rem !important;
             }
 
             .student-name {
@@ -1281,6 +1317,7 @@
             background-origin: border-box;
             background-clip: padding-box, border-box;
             animation: floatFlag 3s ease-in-out infinite, spinBorder 4s linear infinite;
+            border-radius: 25%;
         }
 
         @keyframes spinBorder {
@@ -1837,6 +1874,182 @@
             color: #94a3b8;
             border-color: rgba(46, 204, 113, 0.2);
         }
+
+        /* ==============================================
+           ENH 1: GLASSMORPHISM COUNTER BADGE UPGRADE
+           ============================================== */
+        .counter-badge {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            animation: counterFloat 4s ease-in-out infinite;
+        }
+
+        .counter-badge .counter-num {
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #1a8a6e, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes counterFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        body.dark-mode .counter-badge {
+            background: rgba(30, 41, 59, 0.5);
+            border-color: rgba(74, 222, 128, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        body.dark-mode .counter-badge .counter-num {
+            background: linear-gradient(135deg, #4ade80, #22d3ee);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        /* ==============================================
+           ENH 2: SECTION ENTRANCE ANIMATION
+           ============================================== */
+        .section-entrance {
+            opacity: 0;
+            transform: scale(0.92) translateY(30px);
+            animation: sectionReveal 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .section-entrance:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .section-entrance:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .section-entrance:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .section-entrance:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        .section-entrance:nth-child(6) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes sectionReveal {
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* ==============================================
+           ENH 3: TYPEWRITER STUDENT NAME
+           ============================================== */
+        .student-name.typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            border-left: 3px solid #1a8a6e;
+            animation: blinkCursor 0.7s step-end infinite;
+        }
+
+        .student-name.typewriter-done {
+            border-left: 3px solid transparent;
+        }
+
+        @keyframes blinkCursor {
+            50% {
+                border-left-color: transparent;
+            }
+        }
+
+        body.dark-mode .student-name.typewriter {
+            border-left-color: #4ade80;
+        }
+
+        /* ==============================================
+           ENH 4: CTA SPARKLE PARTICLES
+           ============================================== */
+        .cta-container {
+            position: relative;
+        }
+
+        .cta-sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffd700, transparent);
+            pointer-events: none;
+            z-index: 4;
+            animation: sparkleFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes sparkleFloat {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: translateY(0) scale(0);
+            }
+
+            20% {
+                opacity: 1;
+                transform: translateY(-10px) scale(1);
+            }
+
+            80% {
+                opacity: 0.6;
+                transform: translateY(-40px) scale(0.8);
+            }
+        }
+
+        /* ==============================================
+           ENH 5: GRADIENT DIVIDER
+           ============================================== */
+        .gradient-divider {
+            width: 80%;
+            max-width: 600px;
+            height: 3px;
+            margin: 30px auto;
+            border-radius: 3px;
+            background: linear-gradient(90deg, transparent, #2ecc71, #1abc9c, #3498db, #2ecc71, transparent);
+            background-size: 200% 100%;
+            animation: dividerShimmer 4s linear infinite;
+            position: relative;
+            z-index: 3;
+        }
+
+        @keyframes dividerShimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        body.dark-mode .gradient-divider {
+            background: linear-gradient(90deg, transparent, #4ade80, #22d3ee, #818cf8, #4ade80, transparent);
+            background-size: 200% 100%;
+            animation: dividerShimmer 4s linear infinite;
+        }
     </style>
 </head>
 
@@ -1862,12 +2075,12 @@
         <div class="quote-decoration quote-left">❞</div>
 
         <!-- Section Title -->
-        <h2 class="section-title reveal-on-scroll">
+        <h2 class="section-title reveal-on-scroll section-entrance">
             ماذا يقول الأهالي عن رحلتهم مع <span class="highlight">" تعلّم مع فارس "</span> ؟
         </h2>
 
         <!-- Flags Arc -->
-        <div class="flags-arc-wrapper">
+        <div class="flags-arc-wrapper section-entrance">
             <div class="flags-arc-container" id="flagsArc">
                 <div class="arc-connector"></div>
                 <!-- Flags injected by JS -->
@@ -1877,13 +2090,13 @@
         </div>
 
         <!-- Progress Dots -->
-        <div class="progress-dots" id="progressDots"></div>
+        <div class="progress-dots section-entrance" id="progressDots"></div>
         <div class="auto-rotate-bar">
             <div class="auto-rotate-progress" id="autoProgress"></div>
         </div>
 
         <!-- Star Rating -->
-        <div class="star-rating" id="starRating">
+        <div class="star-rating section-entrance" id="starRating">
             <div class="stars">
                 <span class="star">★</span>
                 <span class="star">★</span>
@@ -1894,12 +2107,12 @@
         </div>
 
         <!-- Student Name -->
-        <div class="student-name-wrapper">
+        <div class="student-name-wrapper section-entrance">
             <div class="student-name" id="studentName"></div>
         </div>
 
         <!-- Testimonial Counter -->
-        <div class="testimonial-counter">
+        <div class="testimonial-counter section-entrance">
             <div class="counter-badge">
                 <span class="counter-num" id="counterCurrent">1</span>
                 <span>من</span>
@@ -1910,6 +2123,9 @@
 
         <!-- Testimonial Cards -->
         <div class="cards-container" id="cardsContainer"></div>
+
+        <!-- Gradient Divider -->
+        <div class="gradient-divider"></div>
 
         <!-- Bottom Text -->
         <p class="bottom-text">في 3 أسابيع فقط...تغيّر كل شيء</p>
@@ -2497,6 +2713,7 @@
                 <div class="flag-circle">
                     <img src="${country.flagUrl}" alt="علم ${country.name}" loading="lazy">
                 </div>
+                <span class="flag-name">${country.name}</span>
                 <div class="flag-tooltip">${country.name}</div>
                 <div class="flag-badge">${country.testimonialCount || '3'}+</div>
             `; flagEl.addEventListener('click', () => selectCountry(index));
@@ -2592,11 +2809,11 @@
             const nameEl = document.getElementById('studentName');
             const cardsEl = document.getElementById('cardsContainer');
 
-            // Update name with animation
+            // Update name with typewriter effect
             if (animate) {
                 nameEl.classList.add('fade-out');
                 setTimeout(() => {
-                    nameEl.textContent = country.studentName;
+                    typewriterEffect(nameEl, country.studentName);
                     nameEl.classList.remove('fade-out');
                 }, 300);
             } else {
@@ -2894,6 +3111,68 @@
         document.addEventListener('DOMContentLoaded', () => {
             const statsBar = document.querySelector('.stats-bar');
             if (statsBar) statsObserver.observe(statsBar);
+        });
+
+        // ============================================
+        // ENH 3: TYPEWRITER EFFECT
+        // ============================================
+        function typewriterEffect(el, text) {
+            el.textContent = '';
+            el.classList.add('typewriter');
+            el.classList.remove('typewriter-done');
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    el.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, 40);
+                } else {
+                    // Stop blinking cursor after typing finishes
+                    setTimeout(() => {
+                        el.classList.remove('typewriter');
+                        el.classList.add('typewriter-done');
+                    }, 600);
+                }
+            }
+            type();
+        }
+
+        // ============================================
+        // ENH 4: CTA SPARKLE PARTICLES
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctaContainer = document.querySelector('.cta-container');
+            if (!ctaContainer) return;
+
+            function createSparkle() {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'cta-sparkle';
+                // Random position around the button
+                const btnRect = ctaContainer.querySelector('.cta-button');
+                if (!btnRect) return;
+                const rect = btnRect.getBoundingClientRect();
+                const containerRect = ctaContainer.getBoundingClientRect();
+                const relLeft = rect.left - containerRect.left;
+                const relTop = rect.top - containerRect.top;
+                sparkle.style.left = (relLeft + Math.random() * rect.width) + 'px';
+                sparkle.style.top = (relTop + Math.random() * 20) + 'px';
+                sparkle.style.animationDelay = (Math.random() * 2) + 's';
+                sparkle.style.animationDuration = (2 + Math.random() * 2) + 's';
+                const size = 3 + Math.random() * 5;
+                sparkle.style.width = size + 'px';
+                sparkle.style.height = size + 'px';
+                const colors = ['#ffd700', '#ffec8b', '#ffe4b5', '#fff8dc', '#ffc107'];
+                sparkle.style.background = `radial-gradient(circle, ${colors[Math.floor(Math.random() * colors.length)]}, transparent)`;
+                ctaContainer.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 5000);
+            }
+
+            // Continuously spawn sparkles
+            setInterval(createSparkle, 400);
+            // Initial burst
+            for (let i = 0; i < 6; i++) {
+                setTimeout(createSparkle, i * 200);
+            }
         });
     </script>
 
