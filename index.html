@@ -2325,6 +2325,190 @@
             background-size: 200% 100%;
             animation: dividerShimmer 4s linear infinite;
         }
+
+        /* ==============================================
+           ENH 6: ANIMATED BACKGROUND ORBS
+           ============================================== */
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(80px);
+            opacity: 0.12;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+
+        .bg-orb:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #2ecc71, transparent);
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .bg-orb:nth-child(2) {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, #3498db, transparent);
+            top: 50%;
+            right: 5%;
+            animation-delay: -7s;
+            animation-duration: 25s;
+        }
+
+        .bg-orb:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #e67e22, transparent);
+            bottom: 15%;
+            left: 30%;
+            animation-delay: -14s;
+            animation-duration: 22s;
+        }
+
+        @keyframes orbFloat {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(40px, -30px) scale(1.1);
+            }
+
+            50% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+
+            75% {
+                transform: translate(30px, 40px) scale(1.05);
+            }
+        }
+
+        body.dark-mode .bg-orb {
+            opacity: 0.06;
+        }
+
+        /* ==============================================
+           ENH 7: GRADIENT BORDER ON CARD HOVER
+           ============================================== */
+        .testimonial-card {
+            position: relative;
+        }
+
+        .testimonial-card::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 24px;
+            background: conic-gradient(from var(--border-angle, 0deg), #2ecc71, #3498db, #e67e22, #e74c3c, #9b59b6, #2ecc71);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            animation: rotateBorder 3s linear infinite;
+        }
+
+        .testimonial-card:hover::after {
+            opacity: 1;
+        }
+
+        @property --border-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @keyframes rotateBorder {
+            to {
+                --border-angle: 360deg;
+            }
+        }
+
+        /* ==============================================
+           ENH 8: TRUST BADGE SHINE SWEEP
+           ============================================== */
+        .trust-badge {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trust-badge::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shineSweep 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shineSweep {
+
+            0%,
+            100% {
+                left: -100%;
+            }
+
+            50% {
+                left: 150%;
+            }
+        }
+
+        body.dark-mode .trust-badge::after {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+
+        /* ==============================================
+           ENH 9: BOUNCING CTA ARROW
+           ============================================== */
+        .cta-bounce-arrow {
+            display: block;
+            text-align: center;
+            margin-top: 12px;
+            font-size: 1.5rem;
+            color: #2ecc71;
+            animation: ctaArrowBounce 2s ease-in-out infinite;
+            position: relative;
+            z-index: 3;
+        }
+
+        @keyframes ctaArrowBounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.6;
+            }
+
+            50% {
+                transform: translateY(8px);
+                opacity: 1;
+            }
+        }
+
+        body.dark-mode .cta-bounce-arrow {
+            color: #4ade80;
+        }
+
+        /* ==============================================
+           ENH 10: CARD CROSSFADE TRANSITION
+           ============================================== */
+        .cards-container.fading {
+            opacity: 0;
+            transform: scale(0.97);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .cards-container:not(.fading) {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s;
+        }
     </style>
 </head>
 
@@ -2337,6 +2521,11 @@
     <button class="dark-mode-toggle" id="darkToggle" aria-label="تبديل الوضع الليلي">🌙</button>
 
     <section class="testimonials-section" id="testimonials">
+
+        <!-- Background Orbs -->
+        <div class="bg-orb"></div>
+        <div class="bg-orb"></div>
+        <div class="bg-orb"></div>
 
         <!-- Wave Top Divider -->
         <div class="wave-top">
@@ -2423,6 +2612,7 @@
                 </svg>
                 اضغطي هنا الآن لقراءة مئات تعليقات الأمهات
             </a>
+            <div class="cta-bounce-arrow">⬇</div>
         </div>
 
         <!-- Stats Bar -->
@@ -3168,15 +3358,23 @@
         function selectCountry(index) {
             if (index === activeIndex) return;
 
-            activeIndex = index;
-            positionFlags();
-            updateContent(index, true);
-            updateProgressDots();
-            // Update counter
-            const counterEl = document.getElementById('counterCurrent');
-            if (counterEl) counterEl.textContent = index + 1;
-            // Reset auto-rotate timer
-            resetAutoRotate();
+            // Crossfade: fade out cards
+            const cardsEl = document.getElementById('cardsContainer');
+            if (cardsEl) cardsEl.classList.add('fading');
+
+            setTimeout(() => {
+                activeIndex = index;
+                positionFlags();
+                updateContent(index, true);
+                updateProgressDots();
+                // Update counter
+                const counterEl = document.getElementById('counterCurrent');
+                if (counterEl) counterEl.textContent = index + 1;
+                // Fade cards back in
+                if (cardsEl) cardsEl.classList.remove('fading');
+                // Reset auto-rotate timer
+                resetAutoRotate();
+            }, 300);
         }
 
         // ============================================
