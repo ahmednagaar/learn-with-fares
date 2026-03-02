@@ -121,7 +121,7 @@
             gap: 0;
             max-width: 1200px;
             margin: 0 auto;
-            height: 480px;
+            height: 280px;
             position: relative;
         }
 
@@ -942,7 +942,7 @@
 
             .flags-arc-container {
                 max-width: 700px;
-                height: 400px;
+                height: 250px;
             }
         }
 
@@ -958,7 +958,7 @@
 
             .flags-arc-container {
                 max-width: 500px;
-                height: 350px;
+                height: 220px;
             }
 
             .flag-item.active .flag-circle {
@@ -3040,9 +3040,9 @@
 
             // Semi-circle parameters
             const centerX = containerWidth / 2;
-            const centerY = containerHeight - 30; // Bottom center of the arc
+            const centerY = containerHeight - 20; // Bottom center of the arc
             const radiusX = (containerWidth / 2) * (isMobile ? 0.82 : (isTablet ? 0.78 : 0.75));
-            const radiusY = containerHeight * (isMobile ? 0.7 : 0.78);
+            const radiusY = containerHeight * (isMobile ? 0.55 : 0.65);
 
             // How many visible flags on each side
             const maxVisible = isMobile ? 3 : (isTablet ? 4 : 6);
