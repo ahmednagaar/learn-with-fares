@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>آراء الأمهات - تعلم مع فارس</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap"
+        rel="stylesheet">
     <style>
         /* ============================================
            RESET & BASE
@@ -19,7 +20,7 @@
         }
 
         body {
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Tajawal', sans-serif;
             background: #E8F4F8;
             color: #2c3e50;
             overflow-x: hidden;
@@ -66,7 +67,7 @@
            ============================================ */
         .section-title {
             text-align: center;
-            font-size: 2.2rem;
+            font-size: clamp(1.3rem, 3.5vw, 2.2rem);
             font-weight: 800;
             background: linear-gradient(135deg, #1a8a6e, #2ecc71, #1abc9c, #16a085, #1a8a6e);
             background-size: 300% 300%;
@@ -109,8 +110,8 @@
         .flags-arc-wrapper {
             position: relative;
             z-index: 4;
-            margin-bottom: 20px;
-            padding: 0 70px;
+            margin-bottom: -10px;
+            padding: 0 20px;
         }
 
         .flags-arc-container {
@@ -120,7 +121,7 @@
             gap: 0;
             max-width: 1200px;
             margin: 0 auto;
-            height: 350px;
+            height: 480px;
             position: relative;
         }
 
@@ -409,7 +410,7 @@
             display: flex;
             justify-content: center;
             gap: 28px;
-            max-width: 1050px;
+            max-width: 1100px;
             margin: 0 auto 35px;
             padding: 0 20px;
             position: relative;
@@ -417,20 +418,94 @@
             direction: rtl;
         }
 
+        /* Timeline connector between cards */
+        .timeline-connector {
+            position: absolute;
+            top: 50%;
+            left: 8%;
+            right: 8%;
+            height: 4px;
+            background: rgba(46, 204, 113, 0.12);
+            border-radius: 4px;
+            z-index: 0;
+            transform: translateY(-50%);
+        }
+
+        .timeline-connector-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #e67e22, #3498db, #2ecc71);
+            border-radius: 4px;
+            transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .timeline-connector-fill.filled {
+            width: 100%;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 50%;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            transform: translateY(-50%) scale(0);
+            z-index: 2;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .timeline-dot.visible {
+            transform: translateY(-50%) scale(1);
+        }
+
+        .timeline-dot:nth-child(2) {
+            left: 8%;
+            background: #e67e22;
+            transition-delay: 0.2s;
+        }
+
+        .timeline-dot:nth-child(3) {
+            left: 50%;
+            transform: translateY(-50%) translateX(-50%) scale(0);
+            background: #3498db;
+            transition-delay: 0.5s;
+        }
+
+        .timeline-dot:nth-child(3).visible {
+            transform: translateY(-50%) translateX(-50%) scale(1);
+        }
+
+        .timeline-dot:nth-child(4) {
+            right: 8%;
+            background: #2ecc71;
+            transition-delay: 0.8s;
+        }
+
+        body.dark-mode .timeline-connector {
+            background: rgba(74, 222, 128, 0.1);
+        }
+
         /* ============================================
            INDIVIDUAL CARD
            ============================================ */
         .testimonial-card {
-            flex: 0 1 320px;
-            background: #fff;
+            flex: 0 1 330px;
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-radius: 22px;
             overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 2px 10px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
             transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             opacity: 0;
             transform: translateY(40px) scale(0.95);
             transform-style: preserve-3d;
             perspective: 800px;
+            position: relative;
+            z-index: 1;
         }
 
         .testimonial-card.visible {
@@ -439,8 +514,9 @@
         }
 
         .testimonial-card:hover {
-            transform: translateY(-10px) scale(1.03) rotateX(2deg) rotateY(-3deg);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.14), 0 6px 20px rgba(0, 0, 0, 0.08);
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12), 0 6px 20px rgba(0, 0, 0, 0.06);
+            border-color: rgba(46, 204, 113, 0.3);
         }
 
         /* Animation delays for staggered entrance */
@@ -539,6 +615,12 @@
             line-height: 1.65;
             word-wrap: break-word;
             position: relative;
+            opacity: 0;
+            animation: none;
+        }
+
+        .chat-bubble.bubble-visible {
+            animation-fill-mode: forwards;
         }
 
         .chat-bubble.received {
@@ -548,11 +630,43 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
         }
 
+        .chat-bubble.received.bubble-visible {
+            animation: bubbleSlideRight 0.5s ease forwards;
+        }
+
         .chat-bubble.sent {
             background: #dcf8c6;
             align-self: flex-start;
             border-top-left-radius: 4px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .chat-bubble.sent.bubble-visible {
+            animation: bubbleSlideLeft 0.5s ease forwards;
+        }
+
+        @keyframes bubbleSlideRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes bubbleSlideLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .chat-bubble .time {
@@ -572,33 +686,45 @@
             font-size: 0.55rem;
         }
 
-        /* Card label */
+        /* Card label — gradient pill */
         .card-label {
-            padding: 16px;
+            padding: 14px 20px;
             text-align: center;
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #fff;
-            background: linear-gradient(135deg, #1a8a6e 0%, #27ae60 50%, #2ecc71 100%);
             position: relative;
             overflow: hidden;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .card-label.label-before {
-            background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+            background: linear-gradient(135deg, #8b6914 0%, #d4a017 50%, #f0c040 100%);
         }
 
         .card-label.label-after {
-            background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+            background: linear-gradient(135deg, #0c6e8c 0%, #1a9bb5 50%, #22c1d6 100%);
         }
 
         .card-label.label-result {
-            background: linear-gradient(135deg, #1a8a6e 0%, #2ecc71 100%);
+            background: linear-gradient(135deg, #1a6b3c 0%, #27ae60 50%, #4cda7a 100%);
+            animation: resultPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes resultPulse {
+
+            0%,
+            100% {
+                filter: brightness(1);
+            }
+
+            50% {
+                filter: brightness(1.15);
+            }
         }
 
         .card-label .label-icon {
@@ -695,7 +821,7 @@
             border-radius: 50px;
             font-size: 1.1rem;
             font-weight: 700;
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Tajawal', sans-serif;
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -816,7 +942,7 @@
 
             .flags-arc-container {
                 max-width: 700px;
-                height: 300px;
+                height: 400px;
             }
         }
 
@@ -832,7 +958,7 @@
 
             .flags-arc-container {
                 max-width: 500px;
-                height: 280px;
+                height: 350px;
             }
 
             .flag-item.active .flag-circle {
@@ -957,19 +1083,62 @@
         .stats-bar {
             display: flex;
             justify-content: center;
-            gap: 40px;
+            gap: 24px;
             margin: 30px auto 0;
-            max-width: 700px;
+            max-width: 750px;
             position: relative;
             z-index: 3;
         }
 
         .stat-item {
             text-align: center;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 20px 24px 16px;
+            flex: 1;
+            max-width: 200px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+        }
+
+        .stat-item.stat-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 6px;
+            display: block;
+            animation: statIconBounce 0.6s ease backwards;
+        }
+
+        @keyframes statIconBounce {
+            0% {
+                transform: scale(0) translateY(10px);
+            }
+
+            60% {
+                transform: scale(1.2) translateY(-5px);
+            }
+
+            100% {
+                transform: scale(1) translateY(0);
+            }
         }
 
         .stat-number {
-            font-size: 2rem;
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
             font-weight: 900;
             color: #1a8a6e;
             line-height: 1;
@@ -988,7 +1157,14 @@
 
         @media (max-width: 600px) {
             .stats-bar {
-                gap: 20px;
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+
+            .stat-item {
+                padding: 14px 16px 12px;
+                border-radius: 16px;
+                min-width: 100px;
             }
 
             .stat-number {
@@ -1064,8 +1240,10 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid rgba(46, 204, 113, 0.3);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -1074,15 +1252,26 @@
             color: #1a8a6e;
             z-index: 15;
             transition: all 0.3s ease;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
         }
 
         .nav-arrow:hover {
-            background: #2ecc71;
+            background: rgba(46, 204, 113, 0.85);
             color: #fff;
-            border-color: #2ecc71;
+            border-color: rgba(46, 204, 113, 0.6);
             transform: translateY(-50%) scale(1.1);
-            box-shadow: 0 5px 20px rgba(46, 204, 113, 0.3);
+            box-shadow: 0 5px 25px rgba(46, 204, 113, 0.35);
+        }
+
+        body.dark-mode .nav-arrow {
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+
+        body.dark-mode .nav-arrow:hover {
+            background: rgba(74, 222, 128, 0.7);
+            color: #fff;
         }
 
         .nav-arrow-right {
@@ -1174,7 +1363,8 @@
         }
 
         body.dark-mode .testimonial-card {
-            background: #1e293b;
+            background: rgba(30, 41, 59, 0.65);
+            border-color: rgba(255, 255, 255, 0.08);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
@@ -1199,6 +1389,12 @@
 
         body.dark-mode .bottom-text {
             color: #f87171;
+        }
+
+        body.dark-mode .stat-item {
+            background: rgba(30, 41, 59, 0.5);
+            border-color: rgba(74, 222, 128, 0.12);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         body.dark-mode .flag-item .flag-circle {
@@ -2201,7 +2397,15 @@
         </div>
 
         <!-- Testimonial Cards -->
-        <div class="cards-container" id="cardsContainer"></div>
+        <div class="cards-container" id="cardsContainer">
+            <!-- Timeline connector -->
+            <div class="timeline-connector">
+                <div class="timeline-connector-fill" id="timelineFill"></div>
+                <div class="timeline-dot"></div>
+                <div class="timeline-dot"></div>
+                <div class="timeline-dot"></div>
+            </div>
+        </div>
 
         <!-- Gradient Divider -->
         <div class="gradient-divider"></div>
@@ -2224,14 +2428,17 @@
         <!-- Stats Bar -->
         <div class="stats-bar reveal-on-scroll">
             <div class="stat-item">
+                <span class="stat-icon">🎓</span>
                 <div class="stat-number" id="statStudents">0<span>+</span></div>
                 <div class="stat-label">طالب وطالبة</div>
             </div>
             <div class="stat-item">
+                <span class="stat-icon">🌍</span>
                 <div class="stat-number" id="statCountries">0<span>+</span></div>
                 <div class="stat-label">دولة حول العالم</div>
             </div>
             <div class="stat-item">
+                <span class="stat-icon">⭐</span>
                 <div class="stat-number" id="statReviews">0<span>+</span></div>
                 <div class="stat-label">تقييم إيجابي</div>
             </div>
@@ -2999,8 +3206,11 @@
                 requestAnimationFrame(() => { starContainer.innerHTML = starsHTML; });
             }
 
-            // Build cards
-            let cardsHTML = '';
+            // Preserve timeline connector, remove old cards
+            const timeline = cardsEl.querySelector('.timeline-connector');
+            cardsEl.querySelectorAll('.testimonial-card').forEach(c => c.remove());
+
+            // Insert cards (before or after timeline)
             country.cards.forEach((card) => {
                 let msgsHTML = '';
                 card.messages.forEach(msg => {
@@ -3011,8 +3221,10 @@
                     </div>`;
                 });
 
-                cardsHTML += `
-                <div class="testimonial-card" onclick="this.classList.toggle('flipped')">
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'testimonial-card';
+                cardDiv.setAttribute('onclick', "this.classList.toggle('flipped')");
+                cardDiv.innerHTML = `
                     <div class="card-inner">
                         <div class="card-front">
                             <div class="card-header">
@@ -3039,11 +3251,9 @@
                             <div class="back-text">${card.label === 'قبل' ? 'هذه المرحلة الأولى من رحلة التعلم مع تعلّم مع فارس. البداية دائماً مميزة!' : card.label === 'بعد' ? 'بعد فترة قصيرة من التعلم، بدأت النتائج تظهر بشكل واضح ✨' : 'النتيجة النهائية مذهلة! تغيير جذري في مستوى الطفل 🏆'}</div>
                             <div class="back-hint">اضغط للرجوع</div>
                         </div>
-                    </div>
-                </div>`;
+                    </div>`;
+                cardsEl.appendChild(cardDiv);
             });
-
-            cardsEl.innerHTML = cardsHTML;
 
             // Animate cards in
             const cards = cardsEl.querySelectorAll('.testimonial-card');
@@ -3053,6 +3263,27 @@
                 });
             } else {
                 cards.forEach(card => card.classList.add('visible'));
+            }
+
+            // Animate bubbles with stagger
+            const allBubbles = cardsEl.querySelectorAll('.chat-bubble');
+            allBubbles.forEach((bubble, idx) => {
+                const delay = animate ? (400 + idx * 200) : 0;
+                setTimeout(() => {
+                    bubble.classList.add('bubble-visible');
+                }, delay);
+            });
+
+            // Timeline animation
+            const timelineFill = document.getElementById('timelineFill');
+            const timelineDots = cardsEl.querySelectorAll('.timeline-dot');
+            if (timelineFill) {
+                timelineFill.classList.remove('filled');
+                timelineDots.forEach(d => d.classList.remove('visible'));
+                setTimeout(() => {
+                    timelineFill.classList.add('filled');
+                    timelineDots.forEach(d => d.classList.add('visible'));
+                }, animate ? 500 : 100);
             }
         }
 
@@ -3271,9 +3502,20 @@
         const statsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    animateCounter(document.getElementById('statStudents'), 500, 2000);
-                    animateCounter(document.getElementById('statCountries'), 15, 1500);
-                    animateCounter(document.getElementById('statReviews'), 300, 2000);
+                    // Staggered reveal of stat items
+                    const statItems = entry.target.querySelectorAll('.stat-item');
+                    statItems.forEach((item, i) => {
+                        setTimeout(() => {
+                            item.classList.add('stat-visible');
+                            // Also trigger icon animation
+                            const icon = item.querySelector('.stat-icon');
+                            if (icon) icon.style.animationDelay = `${i * 0.2}s`;
+                        }, i * 200);
+                    });
+                    // Start counters with stagger
+                    setTimeout(() => animateCounter(document.getElementById('statStudents'), 500, 2000), 0);
+                    setTimeout(() => animateCounter(document.getElementById('statCountries'), 15, 1500), 200);
+                    setTimeout(() => animateCounter(document.getElementById('statReviews'), 300, 2000), 400);
                     statsObserver.unobserve(entry.target);
                 }
             });
