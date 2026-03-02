@@ -2642,6 +2642,107 @@
             background-clip: text;
             animation: bottomTextGlow 4s ease infinite;
         }
+
+        /* ==============================================
+           NEW-A: PROGRESS DOT GLOW TRAIL
+           ============================================== */
+        .progress-dot.active::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: rgba(46, 204, 113, 0.25);
+            z-index: -1;
+            animation: dotGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes dotGlow {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.4;
+            }
+
+            50% {
+                transform: scale(1.8);
+                opacity: 0;
+            }
+        }
+
+        /* ==============================================
+           NEW-B: TRUST BADGE HOVER ELEVATION
+           ============================================== */
+        .trust-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(46, 204, 113, 0.2);
+            border-color: rgba(46, 204, 113, 0.35);
+        }
+
+        /* ==============================================
+           NEW-C: STUDENT NAME GRADIENT UNDERLINE
+           ============================================== */
+        .student-name::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 3px;
+            margin: 8px auto 0;
+            border-radius: 3px;
+            background: linear-gradient(90deg, transparent, #2ecc71, #1abc9c, #2ecc71, transparent);
+            background-size: 200% 100%;
+            animation: underlineShimmer 3s linear infinite;
+        }
+
+        @keyframes underlineShimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        body.dark-mode .student-name::after {
+            background: linear-gradient(90deg, transparent, #4ade80, #22d3ee, #4ade80, transparent);
+            background-size: 200% 100%;
+            animation: underlineShimmer 3s linear infinite;
+        }
+
+        /* ==============================================
+           NEW-D: CTA ICON SPIN ON HOVER
+           ============================================== */
+        .cta-button svg {
+            transition: transform 0.5s ease;
+        }
+
+        .cta-button:hover svg {
+            transform: rotate(15deg) scale(1.2);
+        }
+
+        /* ==============================================
+           NEW-E: STAT NUMBER COLOR SHIFT ON HOVER
+           ============================================== */
+        .stat-item:hover .stat-number {
+            background: linear-gradient(135deg, #2ecc71, #3498db, #1a8a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.4s ease;
+        }
+
+        .stat-item:hover .stat-icon {
+            transform: scale(1.3) rotate(-10deg);
+            transition: transform 0.4s ease;
+        }
+
+        body.dark-mode .stat-item:hover .stat-number {
+            background: linear-gradient(135deg, #4ade80, #22d3ee, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
     </style>
 </head>
 
